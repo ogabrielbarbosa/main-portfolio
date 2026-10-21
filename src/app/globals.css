@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --canvas: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #161616;
+  --line: #242424;
+  --edge: #3a3a3a;
+  --lime: #e4ff57;
+  --lime-dim: #e4ff5722;
+  --fg: #f2f2f2;
+  --soft: #bdbdbd;
+  --muted: #8c8c8c;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-edge: var(--edge);
+  --color-lime: var(--lime);
+  --color-lime-dim: var(--lime-dim);
+  --color-fg: var(--fg);
+  --color-soft: var(--soft);
+  --color-muted: var(--muted);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-pixel: var(--font-silkscreen);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-blink: blink 1.1s steps(1) infinite;
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes pulse-glow {
+    50% {
+      transform: scale(1.4);
+      opacity: 0.4;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--canvas);
+    color: var(--fg);
+  }
+
+  ::selection {
+    background: var(--lime);
+    color: var(--canvas);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+  }
 }
