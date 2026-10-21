@@ -1,16 +1,8 @@
-import { ArrowUpRight, Download, FileText, Mail, MessageCircle } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { CV_EN, CV_PT, SECTION_IDS } from "@/content/shared";
-import type { ContactIcon, Dictionary } from "@/content/types";
-import { GithubIcon, InstagramIcon, LinkedinIcon } from "../BrandIcons";
-import { Crosshair, Frame, Kicker } from "../ui";
-
-const ICONS: Record<ContactIcon, React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>> = {
-  linkedin: LinkedinIcon,
-  instagram: InstagramIcon,
-  github: GithubIcon,
-  whatsapp: MessageCircle,
-  email: Mail,
-};
+import type { Dictionary } from "@/content/types";
+import { CONTACT_ICONS } from "../BrandIcons";
+import { Crosshair, Frame, Kicker, LinkRow } from "../ui";
 
 export function AboutContact({ dict }: { dict: Dictionary }) {
   const { about, contact } = dict;
@@ -40,43 +32,20 @@ export function AboutContact({ dict }: { dict: Dictionary }) {
         </div>
 
         <ul>
-          {contact.items.map((item) => {
-            const Icon = ICONS[item.icon];
-            const external = item.href.startsWith("http");
-            return (
-              <li key={item.icon}>
-                <a
-                  href={item.href}
-                  target={external ? "_blank" : undefined}
-                  rel={external ? "noopener noreferrer" : undefined}
-                  className="group flex items-center gap-4 border-t border-line px-5 py-[18px] transition-colors hover:bg-surface sm:px-8"
-                >
-                  <Icon aria-hidden className="size-[18px] shrink-0 text-muted" />
-                  <span className="hidden w-[110px] shrink-0 text-[11px] tracking-[1px] text-muted sm:block">
-                    {item.label}
-                  </span>
-                  <span className="min-w-0 flex-1 truncate text-sm">{item.value}</span>
-                  <ArrowUpRight
-                    aria-hidden
-                    className="size-4 shrink-0 text-muted transition-colors group-hover:text-lime"
-                  />
-                </a>
-              </li>
-            );
-          })}
+          {contact.items.map((item) => (
+            <li key={item.icon}>
+              <LinkRow href={item.href} icon={CONTACT_ICONS[item.icon]} label={item.label} value={item.value} />
+            </li>
+          ))}
           <li>
-            <a
+            <LinkRow
               href={dict.locale === "pt" ? CV_PT : CV_EN}
               download
-              className="group flex items-center gap-4 border-t border-line px-5 py-[18px] transition-colors hover:bg-surface sm:px-8"
-            >
-              <FileText aria-hidden className="size-[18px] shrink-0 text-muted" />
-              <span className="hidden w-[110px] shrink-0 text-[11px] tracking-[1px] text-muted sm:block">
-                {contact.cvLabel}
-              </span>
-              <span className="min-w-0 flex-1 truncate text-sm">{contact.cvUpdated}</span>
-              <Download aria-hidden className="size-4 shrink-0 text-muted transition-colors group-hover:text-lime" />
-            </a>
+              icon={FileText}
+              label={contact.cvLabel}
+              value={contact.cvUpdated}
+              action={Download}
+            />
           </li>
         </ul>
       </div>

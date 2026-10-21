@@ -179,4 +179,14 @@ export const pt: Dictionary = {
     cvUpdated: "PDF · atualizado em out 2026",
   },
   marquee: "GABRIEL BARBOSA",
+  links: {
+    meta: {
+      title: "Gabriel Barbosa — Links",
+      description: "Contatos e links do Gabriel Barbosa, AI Engineer & Product Builder.",
+    },
+    portfolio: "PORTFÓLIO",
+    work: "TRABALHE COMIGO NA LÍDERHUB",
+    mentoring: "MENTORIA INDIVIDUAL",
+    soon: "EM BREVE",
+  },
 };

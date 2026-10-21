@@ -4,6 +4,8 @@
 export const CV_PT = "/cv/gabriel-barbosa-pt.pdf";
 export const CV_EN = "/cv/gabriel-barbosa-en.pdf";
 
+export const LIDERHUB_JOBS = "https://link.liderhub.ai/vagas";
+
 export const LINKS = {
   linkedin: { value: "linkedin.com/in/ogabarbosa", href: "https://www.linkedin.com/in/ogabarbosa/" },
   instagram: { value: "instagram.com/ogabarbosa", href: "https://www.instagram.com/ogabarbosa/" },

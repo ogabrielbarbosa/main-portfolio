@@ -1,4 +1,5 @@
-import type { LucideProps } from "lucide-react";
+import { Mail, MessageCircle, type LucideProps } from "lucide-react";
+import type { ContactIcon } from "@/content/types";
 
 // lucide-react v1 dropped brand icons; these keep the same stroke style.
 function BrandIcon({ children, ...props }: LucideProps) {
@@ -46,3 +47,11 @@ export function GithubIcon(props: LucideProps) {
     </BrandIcon>
   );
 }
+
+export const CONTACT_ICONS: Record<ContactIcon, React.ComponentType<LucideProps>> = {
+  linkedin: LinkedinIcon,
+  instagram: InstagramIcon,
+  github: GithubIcon,
+  whatsapp: MessageCircle,
+  email: Mail,
+};

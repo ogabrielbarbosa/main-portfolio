@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import { ArrowUpRight, type LucideIcon, type LucideProps } from "lucide-react";
 
 // Offsets are from the padding box, so -6px centers the 11px cross on the 1px
 // line just outside it (a border or a gap-px divider).
@@ -80,6 +80,40 @@ export function Button({
     >
       {label}
       <Icon aria-hidden className={`size-4 shrink-0 ${iconColor}`} />
+    </a>
+  );
+}
+
+// Full-width bordered row: icon · label · value · trailing arrow. Used by the contact lists.
+export function LinkRow({
+  href,
+  icon: Icon,
+  label,
+  value,
+  action: Action = ArrowUpRight,
+  download,
+}: {
+  href: string;
+  icon: React.ComponentType<LucideProps>;
+  label: string;
+  value: string;
+  action?: LucideIcon;
+  download?: boolean;
+}) {
+  const external = href.startsWith("http");
+
+  return (
+    <a
+      href={href}
+      download={download || undefined}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="group flex items-center gap-4 border-t border-line px-5 py-[18px] transition-colors hover:bg-surface sm:px-8"
+    >
+      <Icon aria-hidden className="size-[18px] shrink-0 text-muted" />
+      <span className="hidden w-[110px] shrink-0 text-[11px] tracking-[1px] text-muted sm:block">{label}</span>
+      <span className="min-w-0 flex-1 truncate text-sm">{value}</span>
+      <Action aria-hidden className="size-4 shrink-0 text-muted transition-colors group-hover:text-lime" />
     </a>
   );
 }

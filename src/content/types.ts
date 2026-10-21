@@ -84,4 +84,11 @@ export interface Dictionary {
     cvUpdated: string;
   };
   marquee: string;
+  links: {
+    meta: { title: string; description: string };
+    portfolio: string;
+    work: string;
+    mentoring: string;
+    soon: string;
+  };
 }
