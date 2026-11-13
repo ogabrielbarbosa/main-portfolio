@@ -4,7 +4,7 @@ export const LINKS = {
   linkedin: { value: "linkedin.com/in/ogabarbosa", href: "https://www.linkedin.com/in/ogabarbosa/" },
   instagram: { value: "instagram.com/ogabarbosa", href: "https://www.instagram.com/ogabarbosa/" },
   github: { value: "github.com/ogabrielbarbosa", href: "https://github.com/ogabrielbarbosa" },
-  whatsapp: { value: "+55 12 99685-9020", href: "https://wa.me/5512996859020" },
+  whatsapp: { value: "+55 12 99685-9020", href: "https://wa.me/message/AFEFSOLS3Y3DC1" },
   email: { value: "contato@ogabarbosa.com", href: "mailto:contato@ogabarbosa.com" },
 };
 
