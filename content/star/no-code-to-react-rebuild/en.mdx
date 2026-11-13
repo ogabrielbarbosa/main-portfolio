@@ -1,0 +1,51 @@
+---
+title: "Moved LiderHub's chat off no-code and cut urgent bugs from 20 to 1"
+name: "REACT CHAT"
+slug: no-code-to-react-rebuild
+locale: en
+status: draft
+summary: "Rebuilt the chat of an AI CRM that kept freezing on WeWeb in React + Supabase, shipped it in ~5 weeks and stabilized production in ~4."
+role: Software Developer
+company: LiderHub
+companyPublic: true
+period:
+  start: "2025-06"
+  end: "2025-09"
+competencies: [impacto-tecnico, prazo-e-pressao, resolucao-de-problemas]
+skills: [React, TypeScript, Supabase, TanStack Query, Postgres]
+metrics:
+  - label: Urgent bugs per week
+    before: "20"
+    after: "1"
+    value: "20 → 1"
+    approximate: false
+  - label: Kickoff to launch
+    value: "~5 weeks"
+    approximate: true
+  - label: Customers on the chat today
+    value: "1,000+"
+    approximate: true
+evidence: []
+featured: true
+order: 1
+---
+
+## Situation
+
+LiderHub is an AI CRM that helps law firms close contracts over WhatsApp. In 2025 the app ran on no-code (Bubble + WeWeb). It used over 3 GB of RAM, froze the browser, delivered messages late, and customers were cancelling.
+
+## Task
+
+The team decided to rewrite it in React + Supabase. I owned the whole support experience: chat, messages, search, kanban and contacts. We had about 5 weeks to launch, much of it working on-site with the team in Florianópolis.
+
+## Action
+
+1. Mapped the entire old app before writing code: message types, formatting, assignment rules, tags and logs.
+2. Rebuilt the chat with a lean list and an event-driven cache, instead of refetching everything on each message.
+3. Made realtime respect filters, together with Pedro: an event only enters the list if it matches the active filter.
+4. Led stabilization after the August 2, 2025 launch: traced the chat that closed on its own, fixed a blank-screen crash within a day, and merged 8 branches from 3 developers on August 26.
+5. Built bidirectional pagination: jumping to an old message loads only its page and its neighbors. I built visual debug panels to get the logic right.
+
+## Result
+
+Urgent bugs dropped from 20 to 1 per week in about 4 weeks. Today over a thousand customers run on this chat.

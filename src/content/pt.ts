@@ -1,192 +1,177 @@
-import { LINKS, SECTION_IDS } from "./shared";
+import { EXPERIENCE_PATH, LINKS } from "./shared";
 import type { Dictionary } from "./types";
 
-// TODO: projetos, métricas e experiências ainda são os do design (placeholder).
 export const pt: Dictionary = {
   locale: "pt",
   meta: {
-    title: "Gabriel Barbosa — AI Engineer & Product Builder",
-    description: "Eu construo produtos com IA que geram resultado de negócio.",
+    title: "Gabriel Barbosa",
+    description:
+      "Gabriel Barbosa é AI Engineer & Product Builder em São Paulo. Constrói produtos com IA que geram resultado de negócio.",
   },
-  nav: {
-    links: [
-      { label: "PROJETOS", href: `#${SECTION_IDS.projects}` },
-      { label: "EXPERIÊNCIA", href: `#${SECTION_IDS.experience}` },
-      { label: "CONTATO", href: `#${SECTION_IDS.contact}` },
-    ],
+  nav: [
+    { label: "experiência", href: EXPERIENCE_PATH.pt },
+    { label: "sobre mim", href: "/about" },
+  ],
+  intro: { name: "Gabriel Barbosa", photoAlt: "Gabriel Barbosa" },
+  lede: {
+    strong: "AI Engineer & Product Builder.",
+    text: "Trabalho junto com empresas para desenhar produtos, testar ideias e gerar crescimento com estratégias orientadas a dados.",
   },
-  hero: {
-    greeting: "Oi, eu sou o Gabriel!",
-    titleLine1: "AI ENGINEER",
-    titleLine2: "PRODUCT BUILDER",
-    value: "Eu construo produtos com IA que geram resultado de negócio.",
-    thesisComment: "// tese",
-    thesis: "Hoje todo mundo coda; pouca gente entende de negócio.",
-    cta: "SABER MAIS",
-    photoAlt: "Foto de Gabriel Barbosa",
-  },
-  availability: {
+  kv: [
+    { term: "tese", value: "Hoje todo mundo coda; pouca gente entende de negócio." },
+    { term: "stack", value: "Next.js, React Native, Node, Postgres, Docker e Claude." },
+  ],
+  contacts: [
+    { icon: "linkedin", label: "linkedin", ...LINKS.linkedin },
+    { icon: "instagram", label: "instagram", ...LINKS.instagram },
+    { icon: "github", label: "github", ...LINKS.github },
+    { icon: "whatsapp", label: "whatsapp", ...LINKS.whatsapp },
+    { icon: "email", label: "email", ...LINKS.email },
+  ],
+  work: {
+    title: "Experiência",
     items: [
-      { label: "IDIOMA", value: "Português — Nativo" },
-      { label: "IDIOMA", value: "Inglês — Avançado" },
-      { label: "FUSO", value: "GMT-3 · São Paulo" },
+      {
+        when: "2025 – 2026",
+        role: "Software Engineer",
+        org: "LiderHub",
+        orgHref: "https://liderhub.ai/",
+        slug: "liderhub",
+        description:
+          "CRM com IA para escritórios de advocacia. Reconstruí o chat fora do no-code (bugs urgentes de 20 para 1 por semana), cortei ~95% do tráfego realtime, criei o sistema de tickets (20 mil+ atendidos) e redesenhei o onboarding enquanto a base crescia ~5x.",
+        where: "Tempo integral · Híbrido · Londrina, PR",
+      },
+      {
+        when: "2023",
+        role: "Desenvolvedor Bubble Pleno",
+        org: "Kafé Apps",
+        slug: "kafe-apps",
+        orgHref: "https://www.kafeapps.com.br/",
+        description: "Desenvolvedor Bubble numa software house, tocando três projetos de clientes ao mesmo tempo.",
+        where: "Tempo integral · Remoto · Rio de Janeiro",
+      },
+      {
+        when: "2023",
+        role: "Software Engineer",
+        org: "Superior Digital",
+        slug: "superior-digital",
+        orgHref: "https://www.svperior.com/",
+        description:
+          "App mobile em React Native para um hospital: o médico faz videochamada com o paciente internado e registra o estado dele no prontuário.",
+        where: "Tempo integral · Remoto · EUA",
+      },
+      {
+        when: "2021",
+        role: "Desenvolvedor de Software",
+        org: "Univap Centro",
+        slug: "univap",
+        orgHref: "https://www.univap.br/colegios/unidade-centro",
+        description:
+          "Sistema de ocorrências da escola feito do zero: o professor registra pelo celular e a orientação vê na hora. Valeu como TCC e estágio.",
+        where: "Estágio · Híbrido · São José dos Campos, SP",
+      },
     ],
-    status: {
-      label: "STATUS",
-      online: "Online",
-      offline: "Off",
-      hours: "hustler mode: 7am – 9pm",
+    more: { label: "Histórico completo", href: EXPERIENCE_PATH.pt },
+    meta: {
+      title: "Experiência — Gabriel Barbosa",
+      description: "Todas as experiências de Gabriel Barbosa como engenheiro de software, do estágio à LiderHub.",
     },
   },
   projects: {
-    title: "PROJETOS",
-    path: "~/gabriel/projetos",
-    sub: "Produtos que eu construí ou ajudei a construir — e o que eles moveram no negócio.",
-    cta: "VER CASE",
+    title: "Projetos",
+    empty: "Projetos chegando em breve.",
     items: [
       {
-        slug: "plinai",
-        name: "PLINAI",
-        role: "FOUNDER",
-        highlightRole: true,
-        period: "2024 — HOJE",
-        metric: "+3.000",
-        metricLabel: "usuários ativos em 6 meses",
-        result:
-          "Plataforma de agentes de IA para PMEs. Do zero ao product-market fit sem investimento externo.",
-        stack: ["NEXT.JS", "OPENAI", "SUPABASE", "N8N"],
-        href: "#",
-      },
-      {
-        slug: "despencou",
-        name: "DESPENCOU",
-        role: "AI ENGINEER",
-        period: "2023 — 2024",
-        metric: "-62%",
-        metricLabel: "custo de atendimento",
-        result:
-          "Pipeline de LLM que automatizou triagem e respostas de suporte em escala, 24/7.",
-        stack: ["PYTHON", "LANGCHAIN", "POSTGRES", "AWS"],
-        href: "#",
-      },
-      {
-        slug: "lanabiel",
-        name: "LANABIEL",
-        role: "FREELA",
-        period: "2022 — 2023",
-        metric: "3,4x",
-        metricLabel: "conversão do e-commerce",
-        result: "Redesign + motor de recomendação com IA para uma marca de moda autoral.",
-        stack: ["REACT", "SHOPIFY", "CLAUDE", "FIGMA"],
-        href: "#",
-      },
-    ],
-  },
-  experience: {
-    title: "EXPERIÊNCIA",
-    path: "~/gabriel/experiencia",
-    sub: "Onde trabalhei, o que eu fazia e o resultado que ficou.",
-    columns: { company: "EMPRESA", role: "CARGO", period: "PERÍODO", result: "RESULTADO" },
-    items: [
-      {
-        company: "PLINAI",
-        role: "Founder & AI Engineer",
-        period: "2024 — Hoje",
-        current: true,
-        result: "Produto de IA com 3k+ usuários e receita recorrente desde o 4º mês.",
-      },
-      {
-        company: "DESPENCOU",
-        role: "AI Engineer",
-        period: "2023 — 2024",
-        result: "Automação de suporte com LLM: -62% no custo e SLA de 4h para 5min.",
-      },
-      {
-        company: "LANABIEL",
-        role: "Product Builder · Freela",
-        period: "2022 — 2023",
-        result: "Conversão 3,4x maior após redesign e motor de recomendação.",
-      },
-    ],
-  },
-  principles: {
-    title: "O QUE EU\nACREDITO",
-    path: "~/gabriel/principios",
-    sub: "Cinco regras que guiam como eu decido, construo e trabalho com pessoas.",
-    items: [
-      {
-        title: "Give First, mas saiba dizer não",
+        when: "2025 – 2026",
+        name: "LiderHub",
+        href: "https://liderhub.ai/",
+        tagline: "CRM com IA para advocacia",
         description:
-          "Ajudo antes de pedir qualquer coisa — é assim que relações longas começam.\nMas foco é dizer não para quase tudo.",
+          "Agentes de IA que atendem pelo WhatsApp e ajudam escritórios de advocacia a fechar contratos. Ajudei a reconstruir o produto, que passou de 1.000 clientes. Os marcos:",
+        milestones: [
+          {
+            slug: "no-code-to-react-rebuild",
+            text: "Tirei o chat do no-code, lancei em ~5 semanas e cortei os bugs urgentes de 20 para 1 por semana.",
+          },
+          {
+            slug: "support-tickets-incidents",
+            text: "Criei o sistema de tickets e incidentes: 20 mil+ atendidos e ~40% menos tickets por cliente.",
+          },
+          {
+            slug: "realtime-cost-95",
+            text: "Cortei ~95% do tráfego realtime sem parar a produção.",
+          },
+          {
+            slug: "dev-process",
+            text: "Organizei o processo de dev no GitHub Projects e conduzi 100+ deploys.",
+          },
+          {
+            slug: "onboarding-first-steps",
+            text: "Redesenhei o primeiro acesso: ~94% dos clientes novos aceitando os termos.",
+          },
+        ],
+      },
+    ],
+  },
+  caseStudy: {
+    back: "voltar",
+    metrics: "Resultados",
+    evidence: "Evidências",
+    stack: "stack",
+    before: "antes",
+    after: "depois",
+    now: "hoje",
+  },
+  experience: { results: "Resultados", photos: "Fotos", cases: "Cases" },
+  about: {
+    meta: {
+      title: "Sobre mim — Gabriel Barbosa",
+      description: "Quem é o Gabriel Barbosa, no que ele acredita e com o que ele constrói.",
+    },
+    title: "Sobre mim",
+    paragraphs: [
+      "Tenho 22 anos. Saí do ensino médio direto para o mercado digital, vendendo cursos, infoprodutos e landing pages. Vi como aquilo era poderoso e faturei mais de R$ 100 mil em 7 dias.",
+      "Depois disso voltei para a tecnologia, a área em que eu tinha me formado, e me encontrei: um lugar onde dá para empreender e construir coisas rápido.",
+      "Movido por curiosidade e paixão por resolver problemas, me capacitei rápido e virei engenheiro de automação com IA, ajudando empresas a simplificar operações com IA. Aprendo rápido, me adapto com naturalidade e rendo melhor em ambientes dinâmicos. Me dá um desafio que eu domino.",
+    ],
+    principlesTitle: "O que eu acredito",
+    principles: [
+      {
+        title: "Give First, but learn to say no",
+        description:
+          "Ajudo antes de pedir qualquer coisa: é assim que as relações longas começam. Mas o foco é dizer não para quase tudo, porque muitas vezes é algo que a própria pessoa consegue resolver sozinha. É assim que eu vejo como formar bons colaboradores e bons colegas de equipe.",
       },
       {
         title: "KISS — Keep it Simple, Stupid",
         description:
-          "A solução mais simples que resolve o problema vence.\nComplexidade é um custo que alguém paga depois.",
+          "Todo mundo fala em pensar grande. Eu realmente penso, mas, na hora de decidir um projeto, pensar no simples e no mais rápido é melhor e mais eficiente. Uma arquitetura de sistema, uma automação ou um processo simples é muito mais fácil de manter e de melhorar. As visões grandes precisam ser simples e só funcionam de verdade em pequenos passos.",
       },
       {
         title: "DRY — Don't repeat yourself",
         description:
-          "Se fiz duas vezes, vira função, template ou automação.\nMeu tempo vai para o que é novo.",
+          "Existem vários jeitos de construir um produto: o fácil, o rápido e o eficiente. Quem pensa no curto prazo só quer entregar aquela tarefa e não pensa em realmente manter o produto. Eu foco em fluxos e estruturas pequenas que vão facilitar a vida de quem chegar depois. Nada de código bagunçado, elemento perdido ou design repetitivo. A gente constrói elementos reutilizáveis, com estruturas próprias, de um jeito organizado e inteligente.",
       },
       {
-        title: "Faça coisas que não escalam",
+        title: "Do things that don't scale",
         description:
-          "Os primeiros clientes são atendidos na mão, um a um.\nÉ ali que se aprende o que o produto precisa ser.",
+          "Os primeiros clientes são atendidos na mão, um a um. É ali que se aprende o que o produto precisa ser.",
+      },
+    ],
+    stackTitle: "Stack",
+    stack: [
+      {
+        name: "ia / llm",
+        items: ["OpenAI API", "Claude", "LangChain", "RAG · pgvector"],
       },
       {
-        title: "Metas de 10 anos",
-        description:
-          "Decido o hoje olhando para onde quero estar em uma década.\nPaciência no longo prazo, urgência no curto.",
+        name: "front",
+        items: ["Next.js", "React", "React Native", "Tailwind", "TypeScript"],
       },
+      {
+        name: "back",
+        items: ["Node.js", "Python", "Supabase", "Postgres", "Redis", "Docker"],
+      },
+      { name: "automação", items: ["n8n", "Make", "Apify"] },
     ],
-  },
-  stack: {
-    title: "STACK & FERRAMENTAS",
-    path: "~/gabriel/stack-ferramentas",
-    sub: "O que eu uso no dia a dia para tirar produto do papel.",
-    groups: [
-      { icon: "llm", name: "IA / LLM", items: ["OpenAI API", "Claude", "LangChain", "RAG · pgvector", "Whisper"] },
-      { icon: "front", name: "FRONT / MOBILE", items: ["Next.js", "React", "React Native", "Tailwind", "TypeScript"] },
-      { icon: "back", name: "BACK / DADOS", items: ["Node.js", "Python", "Supabase", "Postgres", "Redis"] },
-      { icon: "automation", name: "AUTOMAÇÃO", items: ["n8n", "Make", "Zapier", "Apify", "Webhooks"] },
-    ],
-  },
-  about: {
-    title: "SOBRE MIM",
-    path: "~/gabriel/sobre",
-    paragraphs: [
-      "Sou engenheiro de IA e builder de produto. Comecei vendendo antes de programar — e isso mudou como eu construo: primeiro o problema e a métrica, depois o código.",
-      "Nos últimos anos lancei produtos próprios, liderei IA em startup e atendi clientes como freela. Gosto de times pequenos, ciclos curtos e gente que mede o que faz.",
-    ],
-    stats: [
-      { value: "4+", label: "anos construindo" },
-      { value: "12", label: "produtos lançados" },
-      { value: "3", label: "empresas" },
-    ],
-  },
-  contact: {
-    title: "ME MANDA UMA MENSAGEM",
-    path: "~/gabriel/contato",
-    items: [
-      { icon: "linkedin", label: "LINKEDIN", ...LINKS.linkedin },
-      { icon: "instagram", label: "INSTAGRAM", ...LINKS.instagram },
-      { icon: "github", label: "GITHUB", ...LINKS.github },
-      { icon: "whatsapp", label: "WHATSAPP", ...LINKS.whatsapp },
-      { icon: "email", label: "EMAIL", ...LINKS.email },
-    ],
-    cvLabel: "CURRÍCULO",
-    cvUpdated: "PDF · atualizado em out 2026",
-  },
-  marquee: "GABRIEL BARBOSA",
-  links: {
-    meta: {
-      title: "Gabriel Barbosa — Links",
-      description: "Contatos e links do Gabriel Barbosa, AI Engineer & Product Builder.",
-    },
-    portfolio: "PORTFÓLIO",
-    work: "TRABALHE COMIGO NA LÍDERHUB",
-    mentoring: "MENTORIA INDIVIDUAL",
-    soon: "EM BREVE",
   },
 };

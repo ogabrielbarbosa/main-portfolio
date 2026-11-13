@@ -1,10 +1,4 @@
 // Dados que não mudam entre idiomas.
-// TODO: trocar pelos PDFs reais antes de publicar.
-
-export const CV_PT = "/cv/gabriel-barbosa-pt.pdf";
-export const CV_EN = "/cv/gabriel-barbosa-en.pdf";
-
-export const LIDERHUB_JOBS = "https://link.liderhub.ai/vagas";
 
 export const LINKS = {
   linkedin: { value: "linkedin.com/in/ogabarbosa", href: "https://www.linkedin.com/in/ogabarbosa/" },
@@ -15,7 +9,17 @@ export const LINKS = {
 };
 
 export const SECTION_IDS = {
-  projects: "projetos",
-  experience: "experiencia",
-  contact: "contato",
+  work: "work",
+  projects: "projects",
 } as const;
+
+export const HOME_PATH = { pt: "/", en: "/en" } as const;
+
+export const ABOUT_PATH = { pt: "/about", en: "/en/about" } as const;
+
+// Case pages: /projects/<slug> and /en/projects/<slug>.
+export const CASE_PATH = { pt: "/projects", en: "/en/projects" } as const;
+
+
+// Experience pages: /experience/<slug> and /en/experience/<slug>.
+export const EXPERIENCE_PATH = { pt: "/experience", en: "/en/experience" } as const;

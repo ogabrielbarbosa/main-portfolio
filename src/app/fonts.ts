@@ -1,14 +1,15 @@
-import { JetBrains_Mono, Silkscreen } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
-const silkscreen = Silkscreen({
-  variable: "--font-silkscreen",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500"],
 });
 
-export const fontVariables = `${jetbrainsMono.variable} ${silkscreen.variable}`;
+export const fontVariables = `${geist.variable} ${geistMono.variable}`;

@@ -1,0 +1,63 @@
+---
+title: "Criei o sistema de tickets e incidentes da LiderHub: 20 mil+ tickets e ~40% menos tickets por cliente"
+name: "TICKETS & INCIDENTES"
+slug: support-tickets-incidents
+locale: pt
+status: draft
+summary: "Tirei o suporte do WhatsApp e do Notion e levei para dentro da plataforma, com tickets rastreáveis, métricas de atendimento e incidentes com dono."
+role: Desenvolvedor de Software
+company: LiderHub
+companyPublic: true
+period:
+  start: "2025-09"
+  end: "2026-10"
+competencies: [impacto-tecnico, foco-no-cliente, organizacao]
+skills: [React, TypeScript, Supabase Realtime, PostgreSQL, Sentry]
+metrics:
+  - label: Tickets atendidos pelo sistema
+    value: "20 mil+"
+    approximate: true
+  - label: Tickets por cliente ativo por mês
+    before: "~3"
+    after: "~1,7"
+    value: "~-40%"
+    approximate: true
+  - label: Nota do atendimento
+    before: "~4,2"
+    after: "~4,8"
+    value: "~4,8"
+    approximate: true
+evidence:
+  - id: pr-tickets
+    type: github
+    src: https://github.com/liderhubai/breezy-omni-chat/pull/169
+    caption: PR do sistema de tickets (set/2025)
+    supports: action
+  - id: pr-incidents
+    type: github
+    src: https://github.com/liderhubai/breezy-omni-chat/pull/435
+    caption: PR do Gestor de Incidentes (dez/2025)
+    supports: action
+featured: false
+order: 3
+---
+
+## Situação
+
+Até setembro de 2025, o cliente da LiderHub reportava problemas pelo WhatsApp do suporte, sem acompanhamento. O suporte criava uma tarefa no Notion para o dev e o cliente ficava sem saber o status. Quando um problema atingia vários clientes, ninguém era o dono dele.
+
+## Tarefa
+
+O Caio definiu os requisitos: o que o sistema precisava ter, os status e o fluxo de fechamento. A minha parte era construir o suporte dentro da plataforma, para o cliente abrir e acompanhar o próprio ticket e para os problemas generalizados ganharem nome e responsável.
+
+## Ação
+
+1. Construí o sistema de tickets dentro do app. O cliente abre o ticket a partir da própria mensagem do chat, conversa com o suporte em tempo real e avalia o atendimento no fechamento.
+2. Criei as métricas de tempo entre status (até a 1ª resposta, até resolver, tempo bloqueado), para o suporte medir o próprio atendimento.
+3. Lancei a v3 em novembro de 2025, com agrupamento de tickets, intervenção do suporte e permissões por papel.
+4. Construí o Gestor de Incidentes em dezembro de 2025. Um problema que afeta vários clientes vira um incidente com nome, responsável e linha do tempo, e os tickets ligados a ele ficam agrupados. Adicionei menções e notificações para acionar o responsável.
+5. Integrei o Sentry com o contexto do chat em abril de 2026, para achar a causa de um erro sem depender do print do cliente.
+
+## Resultado
+
+Em 14 meses o sistema atendeu mais de 20 mil tickets de quase 2 mil workspaces. No mesmo período a base dobrou, os tickets por cliente ativo caíram cerca de 40% (de ~3 para ~1,7 por mês) e a nota do atendimento subiu de ~4,2 para ~4,8, com 5x mais avaliações por mês.

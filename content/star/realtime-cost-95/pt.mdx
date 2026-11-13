@@ -1,0 +1,52 @@
+---
+title: "Cortei 95% do tráfego realtime da LiderHub sem parar a produção"
+name: "REALTIME"
+slug: realtime-cost-95
+locale: pt
+status: draft
+summary: "Achei um keepalive O(N²) e ~5% das empresas gerando ~70% do tráfego, migrei para broadcast e derrubei os eventos de ~40M para ~2M por dia."
+role: Desenvolvedor de Software
+company: LiderHub
+companyPublic: true
+period:
+  start: "2026-03"
+  end: "2026-06"
+competencies: [resolucao-de-problemas, impacto-tecnico]
+skills: [Supabase Realtime, PostgreSQL, Web Workers, RLS, React]
+metrics:
+  - label: Eventos de broadcast por dia
+    before: "~40M"
+    after: "~2M"
+    value: "-95%"
+    approximate: true
+  - label: Pico de eventos em 2 dias
+    value: "~80M"
+    approximate: true
+  - label: Tabelas com RLS reescrito
+    value: "~50"
+    approximate: true
+evidence: []
+featured: true
+order: 2
+---
+
+## Situação
+
+Em março de 2026, com mais de mil clientes na LiderHub, o realtime gerou ~80 milhões de eventos em 2 dias. A latência do websocket chegou a 12 s e usuários davam refresh várias vezes. O banco tinha ~300 GB em 8XL, custava ~US$ 4,3 mil/mês e projetava ~US$ 6 mil.
+
+## Tarefa
+
+Estabilizar o realtime e reduzir o custo do banco sem parar a produção.
+
+## Ação
+
+1. Achei um keepalive O(N²): cada cliente confirmava o sinal de todos os outros. Troquei pelo heartbeat nativo num Web Worker, com jitter na reconexão.
+2. Medi o tráfego e achei o vizinho barulhento: ~5% das empresas geravam ~70% do payload, e 1 mensagem virava de 4 a 8 inserts. Descartei RLS como causa com dado: o slot sem RLS estava 8x mais lento.
+3. Fiz os triggers dispararem só quando algo muda e o broadcast mandar só os campos alterados.
+4. Migrei 12 hooks de postgres_changes para broadcast.
+5. Reescrevi o RLS de ~50 tabelas com claims no JWT, com rollback pronto e janela de manutenção. A função que resolvia a empresa do usuário era chamada ~280 milhões de vezes.
+6. Troquei, na limpeza de índices, o reset de estatísticas por um snapshot de 48 h. O dado novo inverteu uma decisão: o índice que ia ser apagado era o que estava em uso.
+
+## Resultado
+
+Os eventos de broadcast caíram de ~40 milhões para ~2 milhões por dia (−95%). Os índices inúteis de Message, Logs e Chat foram removidos sem downtime, executados em produção pelo Patrick.

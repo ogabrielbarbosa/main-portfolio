@@ -1,0 +1,58 @@
+---
+title: "Organizei o processo de dev da LiderHub: do Notion solto a tarefas ligadas ao código e 100+ deploys conduzidos"
+name: "PROCESSO DE DEV"
+slug: dev-process
+locale: pt
+status: draft
+summary: "Levei as tarefas do Notion para o GitHub Projects, padronizei issues e PRs com templates e skills de IA, e passei a conduzir a daily e os deploys de um time de 3 devs."
+role: Desenvolvedor de Software
+company: LiderHub
+companyPublic: true
+period:
+  start: "2026-02"
+  end: "2026-10"
+competencies: [organizacao, lideranca, iniciativa]
+skills: [GitHub Projects, GitHub Actions, Slack, Skills de IA]
+metrics:
+  - label: Merges ligados a uma issue
+    before: "0"
+    after: "~100"
+    value: "0 → ~100"
+    approximate: true
+  - label: Incidentes no formato padrão
+    before: "0%"
+    after: "~90%"
+    value: "~90%"
+    approximate: true
+  - label: Deploys conduzidos
+    value: "100+"
+    approximate: true
+evidence:
+  - id: pr-templates
+    type: github
+    src: https://github.com/liderhubai/breezy-omni-chat/pull/644
+    caption: PR com os templates de issue, o WORKFLOW.md e o QUICK_START.md (fev/2026)
+    supports: action
+featured: false
+order: 5
+---
+
+## Situação
+
+Até fevereiro de 2026, as tarefas da LiderHub ficavam soltas no Notion: mais de 2 mil cards, cerca de 40% sem prioridade, 60% sem dizer se eram bug ou feature e quase nenhum ligado ao código. Ideia de feature virava um checkbox jogado numa página. Issues e PRs não seguiam padrão, e o time não tinha noção do que fazer primeiro.
+
+## Tarefa
+
+Éramos 3 devs e o CTO. Assumi organizar o fluxo de trabalho, do que entra no backlog até o que vai para produção.
+
+## Ação
+
+1. Levei a gestão de tarefas para o GitHub Projects, com o fluxo Backlog → In Dev → Testing → QA → Code Review → Done. Passei a escrever a maioria das issues e a distribuí-las entre os devs.
+2. Criei templates de issue para bug, feature e tech debt, com prioridade e esforço, e documentei o fluxo no WORKFLOW.md e no QUICK_START.md.
+3. Criei skills de IA para criar issues e PRs já no formato padrão, para ninguém depender de lembrar a regra.
+4. Liguei o QA e os bloqueios ao Slack: quando uma task fica pronta para teste ou trava, o canal é avisado.
+5. Conduzi a daily e planejei com o CTO cada fix e feature, por menor que fosse. Decidi o que entrava em cada deploy e garanti a entrega.
+
+## Resultado
+
+Até janeiro de 2026, nenhum merge vinha de uma branch ligada a uma issue. De fevereiro a outubro foram cerca de 100. Os incidentes no formato padrão foram de 0% para cerca de 90% em cinco meses, e conduzi mais de 100 deploys no período.

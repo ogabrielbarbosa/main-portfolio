@@ -1,0 +1,52 @@
+---
+title: "Cut LiderHub's realtime traffic by 95% without stopping production"
+name: "REALTIME"
+slug: realtime-cost-95
+locale: en
+status: draft
+summary: "Found an O(N²) keepalive and ~5% of tenants generating ~70% of traffic, moved to broadcast, and dropped events from ~40M to ~2M a day."
+role: Software Developer
+company: LiderHub
+companyPublic: true
+period:
+  start: "2026-03"
+  end: "2026-06"
+competencies: [resolucao-de-problemas, impacto-tecnico]
+skills: [Supabase Realtime, PostgreSQL, Web Workers, RLS, React]
+metrics:
+  - label: Broadcast events per day
+    before: "~40M"
+    after: "~2M"
+    value: "-95%"
+    approximate: true
+  - label: Peak events in 2 days
+    value: "~80M"
+    approximate: true
+  - label: Tables with rewritten RLS
+    value: "~50"
+    approximate: true
+evidence: []
+featured: true
+order: 2
+---
+
+## Situation
+
+In March 2026, with over a thousand customers on LiderHub, realtime produced ~80 million events in 2 days. Websocket latency hit 12 s and users kept refreshing. The database was ~300 GB on an 8XL instance, cost ~US$ 4.3k/month and was trending to ~US$ 6k.
+
+## Task
+
+Stabilize realtime and bring database cost down without stopping production.
+
+## Action
+
+1. Found an O(N²) keepalive: every client acknowledged every other client's ping. Replaced it with the SDK's native heartbeat in a Web Worker, with reconnect jitter.
+2. Measured the traffic and found noisy neighbors: ~5% of tenants produced ~70% of the payload, and one incoming message fanned out to 4–8 inserts. Ruled out RLS with data: the slot without RLS was 8x slower.
+3. Made triggers fire only on real changes and broadcasts carry only the changed fields.
+4. Migrated 12 hooks from postgres_changes to broadcast.
+5. Rewrote RLS for ~50 tables using JWT custom claims, with a rollback plan and a maintenance window. The function resolving the user's company was being called ~280 million times.
+6. Replaced a stats reset with a 48-hour snapshot during the index cleanup. The fresh data reversed a decision: the index slated for removal was the one actually in use.
+
+## Result
+
+Broadcast events fell from ~40 million to ~2 million a day (−95%). Unused indexes on Message, Logs and Chat were removed with zero downtime, executed in production by Patrick.

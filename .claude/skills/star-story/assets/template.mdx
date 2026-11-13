@@ -1,0 +1,63 @@
+---
+title: "Reduzi o tempo de deploy em 70%"
+slug: deploy-time-70
+locale: pt
+status: draft
+summary: "Reestruturei o pipeline de CI e cortei o deploy de 40 para 12 minutos, destravando releases diários."
+role: Dev Fullstack
+company: Acme
+companyPublic: true
+period:
+  start: "2025-03"
+  end: "2025-06"
+competencies: [resolucao-de-problemas, impacto-tecnico]
+skills: [GitHub Actions, Docker, Next.js]
+metrics:
+  - label: Tempo de deploy
+    before: 40min
+    after: 12min
+    value: "-70%"
+    approximate: false
+    evidence: deploy-dashboard
+evidence:
+  - id: deploy-dashboard
+    type: image
+    src: /star/deploy-time-70/dashboard.png
+    caption: Dashboard do CI depois da mudança
+    alt: Gráfico mostrando queda do tempo de deploy de 40 para 12 minutos
+    supports: result
+  - id: pipeline-pr
+    type: github
+    src: https://github.com/acme/app/pull/42
+    caption: PR com a nova pipeline em paralelo
+    supports: action
+cover: /star/deploy-time-70/dashboard.png
+featured: false
+---
+
+## Situação
+
+Contexto em 2–3 frases: onde, quando, meu papel e o problema.
+
+## Tarefa
+
+O que era minha responsabilidade, a meta e as restrições.
+
+## Ação
+
+1. Mapeei ...
+2. Propus ... porque ...
+3. Implementei ...
+4. Convenci ...
+
+<Evidence id="pipeline-pr" />
+
+## Resultado
+
+Antes/depois, impacto no negócio e reconhecimento.
+
+<Evidence id="deploy-dashboard" />
+
+## Aprendizado
+
+O que aprendi e o que faria diferente.

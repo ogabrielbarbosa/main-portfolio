@@ -1,0 +1,58 @@
+---
+title: "Organized LiderHub's dev process: from scattered Notion cards to code-linked tasks and 100+ deploys led"
+name: "DEV PROCESS"
+slug: dev-process
+locale: en
+status: draft
+summary: "Moved tasks from Notion to GitHub Projects, standardized issues and PRs with templates and AI skills, and ran the daily and the deploys for a team of 3 developers."
+role: Software Developer
+company: LiderHub
+companyPublic: true
+period:
+  start: "2026-02"
+  end: "2026-10"
+competencies: [organizacao, lideranca, iniciativa]
+skills: [GitHub Projects, GitHub Actions, Slack, AI Skills]
+metrics:
+  - label: Merges linked to an issue
+    before: "0"
+    after: "~100"
+    value: "0 → ~100"
+    approximate: true
+  - label: Incidents in the standard format
+    before: "0%"
+    after: "~90%"
+    value: "~90%"
+    approximate: true
+  - label: Deploys led
+    value: "100+"
+    approximate: true
+evidence:
+  - id: pr-templates
+    type: github
+    src: https://github.com/liderhubai/breezy-omni-chat/pull/644
+    caption: PR adding the issue templates, WORKFLOW.md and QUICK_START.md (Feb 2026)
+    supports: action
+featured: false
+order: 5
+---
+
+## Situation
+
+Until February 2026, LiderHub's tasks sat scattered across Notion: over 2,000 cards, about 40% with no priority, 60% not saying whether they were a bug or a feature, and almost none linked to code. A feature idea was just a checkbox on a page. Issues and PRs followed no standard, and the team had no clear sense of what to do first.
+
+## Task
+
+We were 3 developers and the CTO. I took on organizing the workflow, from what goes into the backlog to what ships to production.
+
+## Action
+
+1. Moved task management to GitHub Projects, with a Backlog → In Dev → Testing → QA → Code Review → Done flow. I wrote most of the issues and assigned them across the team.
+2. Created issue templates for bugs, features and tech debt, with priority and effort, and documented the flow in WORKFLOW.md and QUICK_START.md.
+3. Built AI skills that create issues and PRs already in the standard format, so nobody had to remember the rules.
+4. Connected QA and blockers to Slack: when a task is ready for testing or gets blocked, the channel is notified.
+5. Ran the daily and planned every fix and feature with the CTO, however small. I decided what went into each deploy and made sure it shipped.
+
+## Result
+
+Until January 2026, no merge came from a branch linked to an issue. From February to October there were about 100. Incidents in the standard format went from 0% to about 90% in five months, and I led more than 100 deploys in that period.

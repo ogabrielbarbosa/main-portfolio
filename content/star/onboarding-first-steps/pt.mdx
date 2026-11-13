@@ -1,0 +1,60 @@
+---
+title: "Redesenhei o onboarding da LiderHub: semanas com 90%+ dos clientes novos aceitando os termos e agendando a call"
+name: "ONBOARDING"
+slug: onboarding-first-steps
+locale: pt
+status: draft
+summary: "Transformei um banner pequeno e um botão escondido num primeiro acesso guiado, com aceite dos termos e agendamento da call obrigatórios, e uma home de Primeiros Passos."
+role: Desenvolvedor de Software
+company: LiderHub
+companyPublic: true
+period:
+  start: "2026-09"
+  end: "2026-10"
+competencies: [foco-no-cliente, iniciativa, impacto-tecnico]
+skills: [React, TypeScript, Supabase, Edge Functions, PostgreSQL]
+metrics:
+  - label: Clientes novos que aceitaram os termos (mediana semanal)
+    before: "~76%"
+    after: "~94%"
+    value: "~94%"
+    approximate: true
+  - label: Semanas com 90%+ aceitando os termos e agendando a call
+    before: "0 de 16"
+    after: "5 de 7"
+    value: "5 de 7"
+    approximate: false
+  - label: Base antiga com termos aceitos
+    before: "~45%"
+    after: "~60%"
+    value: "~60%"
+    approximate: true
+evidence:
+  - id: pr-onboarding
+    type: github
+    src: https://github.com/liderhubai/breezy-omni-chat/pull/1805
+    caption: PR do novo onboarding, termos e Primeiros Passos (set/2026)
+    supports: action
+featured: false
+order: 4
+---
+
+## Situação
+
+Na LiderHub, o cliente pagava e começava a usar a plataforma sem nenhum guia. Os termos de uso apareciam só num banner pequeno, e sem o aceite a empresa ficava exposta juridicamente. A call de onboarding, que ensina o que usar e como, era um botão escondido na home, e o cliente nem sabia que precisava agendar.
+
+## Tarefa
+
+Desenhei e construí um primeiro acesso que garantisse o aceite dos termos e o agendamento da call, sem travar quem já usava a plataforma.
+
+## Ação
+
+1. Tornei o aceite dos termos e o agendamento da call etapas obrigatórias do primeiro acesso. Sem elas, o cliente não avança.
+2. Criei um pop-up de termos para os clientes antigos. Ele pode ser fechado para não bloquear o trabalho, mas volta a cada novo acesso até o aceite.
+3. Troquei a home por uma tela de Primeiros Passos, com um checklist em 3 fases: agendar o onboarding, configuração básica e integrações.
+4. Protegi o registro do aceite com uma operação atômica no banco, para um evento atrasado não apagar a versão aceita. Mantive a função antiga em produção e lancei a nova em paralelo.
+5. Quando um cliente travou em loading infinito na tela de termos, reproduzi o bug numa conta nova, achei a causa e corrigi no mesmo dia.
+
+## Resultado
+
+Antes, em nenhuma de 16 semanas mais de 90% dos clientes novos tinham aceitado os termos. Nas 7 semanas seguintes ao lançamento, 5 passaram de 90% no aceite e no agendamento da call, e a mediana semanal de aceite subiu de ~76% para ~94%. Na base antiga, o pop-up levou a cobertura de termos aceitos de ~45% para ~60%.

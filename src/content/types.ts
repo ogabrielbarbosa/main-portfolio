@@ -1,39 +1,6 @@
 export type Locale = "pt" | "en";
 
-export type StackGroupIcon = "llm" | "front" | "back" | "automation";
 export type ContactIcon = "linkedin" | "instagram" | "github" | "whatsapp" | "email";
-
-export interface Project {
-  slug: string;
-  name: string;
-  role: string;
-  highlightRole?: boolean;
-  period: string;
-  metric: string;
-  metricLabel: string;
-  result: string;
-  stack: string[];
-  href: string;
-}
-
-export interface Job {
-  company: string;
-  role: string;
-  period: string;
-  current?: boolean;
-  result: string;
-}
-
-export interface Principle {
-  title: string;
-  description: string;
-}
-
-export interface StackGroup {
-  icon: StackGroupIcon;
-  name: string;
-  items: string[];
-}
 
 export interface Contact {
   icon: ContactIcon;
@@ -42,53 +9,67 @@ export interface Contact {
   href: string;
 }
 
+export interface Job {
+  when: string;
+  role: string;
+  org: string;
+  orgHref?: string;
+  description: string;
+  where?: string;
+  // Has a page at /experience/<slug> (content/experience/<slug>).
+  slug?: string;
+}
+
+// A milestone inside a project, linking to its STAR case (content/star/<slug>).
+export interface Milestone {
+  slug: string;
+  text: string;
+}
+
+export interface Project {
+  when: string;
+  name: string;
+  href?: string;
+  tagline: string;
+  description: string;
+  milestones?: Milestone[];
+}
+
 export interface Dictionary {
   locale: Locale;
   meta: { title: string; description: string };
-  nav: { links: { label: string; href: string }[] };
-  hero: {
-    greeting: string;
-    titleLine1: string;
-    titleLine2: string;
-    value: string;
-    thesisComment: string;
-    thesis: string;
-    cta: string;
-    photoAlt: string;
-  };
-  availability: {
-    items: { label: string; value: string }[];
-    status: { label: string; online: string; offline: string; hours: string };
-  };
-  projects: { title: string; path: string; sub: string; cta: string; items: Project[] };
-  experience: {
+  nav: { label: string; href: string }[];
+  intro: { name: string; photoAlt: string };
+  // Bold opening of the lede, then the muted rest.
+  lede: { strong: string; text: string };
+  kv: { term: string; value: string }[];
+  contacts: Contact[];
+  // Home shows the newest jobs; the full list lives at EXPERIENCE_PATH.
+  work: {
     title: string;
-    path: string;
-    sub: string;
-    columns: { company: string; role: string; period: string; result: string };
     items: Job[];
-  };
-  principles: { title: string; path: string; sub: string; items: Principle[] };
-  stack: { title: string; path: string; sub: string; groups: StackGroup[] };
-  about: {
-    title: string;
-    path: string;
-    paragraphs: [string, string];
-    stats: { value: string; label: string }[];
-  };
-  contact: {
-    title: string;
-    path: string;
-    items: Contact[];
-    cvLabel: string;
-    cvUpdated: string;
-  };
-  marquee: string;
-  links: {
+    more: { label: string; href: string };
     meta: { title: string; description: string };
-    portfolio: string;
-    work: string;
-    mentoring: string;
-    soon: string;
+  };
+  // Products I built or helped build; milestones link to the STAR cases.
+  projects: { title: string; empty: string; items: Project[] };
+  caseStudy: {
+    back: string;
+    metrics: string;
+    evidence: string;
+    stack: string;
+    before: string;
+    after: string;
+    now: string;
+  };
+  experience: { results: string; photos: string; cases: string };
+  about: {
+    meta: { title: string; description: string };
+    title: string;
+    paragraphs: string[];
+    principlesTitle: string;
+    principles: { title: string; description: string }[];
+    stackTitle: string;
+    stack: { name: string; items: string[] }[];
   };
 }

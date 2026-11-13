@@ -1,0 +1,63 @@
+---
+title: "Built LiderHub's ticket and incident system: 20k+ tickets and ~40% fewer tickets per customer"
+name: "TICKETS & INCIDENTS"
+slug: support-tickets-incidents
+locale: en
+status: draft
+summary: "Moved support off WhatsApp and Notion and into the platform, with trackable tickets, support metrics and incidents with a clear owner."
+role: Software Developer
+company: LiderHub
+companyPublic: true
+period:
+  start: "2025-09"
+  end: "2026-10"
+competencies: [impacto-tecnico, foco-no-cliente, organizacao]
+skills: [React, TypeScript, Supabase Realtime, PostgreSQL, Sentry]
+metrics:
+  - label: Tickets handled by the system
+    value: "20k+"
+    approximate: true
+  - label: Tickets per active customer per month
+    before: "~3"
+    after: "~1.7"
+    value: "~-40%"
+    approximate: true
+  - label: Support rating
+    before: "~4.2"
+    after: "~4.8"
+    value: "~4.8"
+    approximate: true
+evidence:
+  - id: pr-tickets
+    type: github
+    src: https://github.com/liderhubai/breezy-omni-chat/pull/169
+    caption: Ticket system PR (Sep 2025)
+    supports: action
+  - id: pr-incidents
+    type: github
+    src: https://github.com/liderhubai/breezy-omni-chat/pull/435
+    caption: Incident Manager PR (Dec 2025)
+    supports: action
+featured: false
+order: 3
+---
+
+## Situation
+
+Until September 2025, LiderHub customers reported problems through the support WhatsApp number, with no tracking. Support would create a Notion task for the developers and the customer never knew the status. When a problem hit many customers at once, nobody owned it.
+
+## Task
+
+Caio set the requirements: what the system needed, the statuses and the closing flow. My job was to build support into the platform, so customers could open and follow their own tickets and widespread problems got a name and an owner.
+
+## Action
+
+1. Built the ticket system inside the app. Customers open a ticket straight from a chat message, talk to support in real time and rate the service when it closes.
+2. Built time-between-status metrics (time to first response, time to resolve, time blocked) so support could measure its own service.
+3. Shipped v3 in November 2025, with ticket grouping, support intervention and role-based permissions.
+4. Built the Incident Manager in December 2025. A problem affecting many customers becomes an incident with a name, an owner and a timeline, and its related tickets are grouped under it. Added mentions and notifications to page the owner.
+5. Integrated Sentry with chat context in April 2026, so we could find the cause of an error without waiting for a customer screenshot.
+
+## Result
+
+Over 14 months the system handled more than 20k tickets from nearly 2,000 workspaces. In the same period the customer base doubled, tickets per active customer dropped about 40% (from ~3 to ~1.7 a month) and the support rating rose from ~4.2 to ~4.8, with 5x more ratings per month.
