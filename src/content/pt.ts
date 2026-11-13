@@ -38,7 +38,7 @@ export const pt: Dictionary = {
         orgHref: "https://liderhub.ai/",
         slug: "liderhub",
         description:
-          "CRM com IA para escritórios de advocacia. Reconstruí o chat fora do no-code (bugs urgentes de 20 para 1 por semana), cortei ~95% do tráfego realtime, criei o sistema de tickets (20 mil+ atendidos) e redesenhei o onboarding enquanto a base crescia ~5x.",
+          "Ajudei a reconstruir o produto de uma startup de CRM com IA para advocacia, a manter o app de pé e a orquestrar o time de dev.",
         where: "Tempo integral · Híbrido · Londrina, PR",
       },
       {
@@ -57,7 +57,7 @@ export const pt: Dictionary = {
         slug: "superior-digital",
         orgHref: "https://www.svperior.com/",
         description:
-          "App mobile em React Native para um hospital: o médico faz videochamada com o paciente internado e registra o estado dele no prontuário.",
+          "Construí em React Native o app de um hospital para o médico fazer videochamada com o paciente internado e registrar o estado dele no prontuário.",
         where: "Tempo integral · Remoto · EUA",
       },
       {
@@ -67,7 +67,7 @@ export const pt: Dictionary = {
         slug: "univap",
         orgHref: "https://www.univap.br/colegios/unidade-centro",
         description:
-          "Sistema de ocorrências da escola feito do zero: o professor registra pelo celular e a orientação vê na hora. Valeu como TCC e estágio.",
+          "Criamos do zero o sistema de ocorrências da escola: o professor registra pelo celular e a orientação vê na hora, com o histórico do aluno. Valeu como TCC, projeto de pesquisa e estágio.",
         where: "Estágio · Híbrido · São José dos Campos, SP",
       },
     ],
@@ -89,9 +89,9 @@ export const pt: Dictionary = {
         when: "2025 – 2026",
         name: "LíderHub",
         href: "https://liderhub.ai/",
-        tagline: "CRM com IA para advocacia",
+        tagline: "CRM com IA para advogados",
         description:
-          "CRM com inteligência artificial que ajuda advogados a fecharem contratos.",
+          "Agentes de IA no WhatsApp, do primeiro contato ao contrato fechado.",
         about: [
           "Agentes de IA conversam com os clientes do escritório pelo WhatsApp e ajudam a fechar e gerenciar os contratos. A equipe acompanha tudo no app: chat, busca, kanban e contatos.",
           "Entrei quando o produto tinha cerca de 150 clientes e saí com mais de 1.200. Nesse meio tempo ajudei a reconstruir o app inteiro, mantive ele de pé e ajudei a orquestrar a equipe de dev.",

@@ -44,7 +44,7 @@ async function readSource(slug: string, locale: Locale, version: number) {
 }
 
 export async function getExperience(slug: string, locale: Locale, components = {}) {
-  const source = await readSource(slug, locale, await contentVersion());
+  const source = await readSource(slug, locale, contentVersion());
   if (!source) return null;
 
   const page = await compileMDX<ExperienceFrontmatter>({
@@ -64,11 +64,14 @@ async function readSlugs(version: number) {
   return readdir(EXPERIENCE_DIR);
 }
 
-export const getExperienceSlugs = async () => readSlugs(await contentVersion());
+export const getExperienceSlugs = async () => readSlugs(contentVersion());
 
-// Slugs with a page in this locale, so the home only links rows that have one.
+// Slug -> summary of each page in this locale: the home only links rows that have one,
+// and shows the page's summary so the row and the page say the same thing.
 export async function getExperienceLinks(locale: Locale) {
   const slugs = await getExperienceSlugs();
   const pages = await Promise.all(slugs.map((slug) => getExperience(slug, locale)));
-  return new Set(pages.filter((p) => p !== null).map((p) => p.frontmatter.slug));
+  return new Map(
+    pages.filter((p) => p !== null).map((p) => [p.frontmatter.slug, p.frontmatter.summary] as const),
+  );
 }

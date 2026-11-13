@@ -38,7 +38,7 @@ export const en: Dictionary = {
         orgHref: "https://liderhub.ai/",
         slug: "liderhub",
         description:
-          "AI CRM for law firms. Rebuilt the chat off no-code (urgent bugs from 20 to 1 a week), cut ~95% of realtime traffic, built the ticketing system (20k+ tickets handled) and redesigned onboarding while the customer base grew ~5x.",
+          "Helped rebuild the product of an AI CRM startup for law firms, keep the app running and orchestrate the dev team.",
         where: "Full-time · Hybrid · Londrina, Brazil",
       },
       {
@@ -57,7 +57,7 @@ export const en: Dictionary = {
         slug: "superior-digital",
         orgHref: "https://www.svperior.com/",
         description:
-          "React Native mobile app for a hospital: doctors video call admitted patients and record their condition in the medical record.",
+          "Built a hospital's React Native app so doctors could video call admitted patients and record their condition in the medical record.",
         where: "Full-time · Remote · USA",
       },
       {
@@ -67,7 +67,7 @@ export const en: Dictionary = {
         slug: "univap",
         orgHref: "https://www.univap.br/colegios/unidade-centro",
         description:
-          "The school's incident system, built from scratch: teachers log on their phone and the counselor sees it instantly. Counted as final project and internship.",
+          "We built the school's incident system from scratch: teachers log incidents on their phone and the counselor sees them instantly, with the student's history. It counted as our final project, research project and internship.",
         where: "Internship · Hybrid · São José dos Campos, Brazil",
       },
     ],
@@ -89,9 +89,9 @@ export const en: Dictionary = {
         when: "2025 – 2026",
         name: "LíderHub",
         href: "https://liderhub.ai/",
-        tagline: "AI CRM for law firms",
+        tagline: "AI CRM for lawyers",
         description:
-          "AI-powered CRM that helps lawyers close contracts.",
+          "AI agents on WhatsApp, from first contact to closed contract.",
         about: [
           "AI agents talk to the firm's clients on WhatsApp and help close and manage contracts. The team follows everything in the app: chat, search, kanban and contacts.",
           "I joined when the product had around 150 customers and left with more than 1,200. Along the way I helped rebuild the whole app, kept it running and helped orchestrate the dev team.",

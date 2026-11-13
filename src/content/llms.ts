@@ -185,4 +185,4 @@ export async function buildLlms(locale: Locale, version: number) {
 }
 
 export const llmsResponse = async (locale: Locale) =>
-  new Response(await buildLlms(locale, await contentVersion()), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+  new Response(await buildLlms(locale, contentVersion()), { headers: { "Content-Type": "text/plain; charset=utf-8" } });

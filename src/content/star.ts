@@ -57,7 +57,7 @@ async function readSource(slug: string, locale: Locale, version: number) {
 }
 
 export async function getStory(slug: string, locale: Locale, components = {}) {
-  const source = await readSource(slug, locale, await contentVersion());
+  const source = await readSource(slug, locale, contentVersion());
   if (!source) return null;
 
   const story = await compileMDX<StarFrontmatter>({
@@ -77,7 +77,7 @@ async function readSlugs(version: number) {
   return readdir(STAR_DIR);
 }
 
-export const getSlugs = async () => readSlugs(await contentVersion());
+export const getSlugs = async () => readSlugs(contentVersion());
 
 export async function getStories(locale: Locale) {
   const slugs = await getSlugs();

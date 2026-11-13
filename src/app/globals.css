@@ -700,19 +700,18 @@ footer.site .llms {
   pointer-events: none;
 }
 
-.tx-hide,
+html.tx-hide :is(main, footer.site),
 html.tx-wait :is(main, footer.site) {
   -webkit-text-fill-color: transparent;
 }
 
-.tx-hide ::before,
-.tx-hide ::after,
+html.tx-hide :is(main, footer.site) ::before,
+html.tx-hide :is(main, footer.site) ::after,
 html.tx-wait :is(main, footer.site) ::before,
 html.tx-wait :is(main, footer.site) ::after {
   -webkit-text-fill-color: currentColor;
 }
 
-.tx-pic,
 html.tx-wait :is(main, footer.site) :is(img:not(.avatar), svg) {
   visibility: hidden;
 }

@@ -4,7 +4,10 @@
  * which flicker in through scrambled glyphs in the accent color before settling. Panels (anything with
  * a backdrop blur) just fade. On first load the page assembles itself the same way.
  *
- * Text stays in the DOM the whole time (made transparent with .tx-hide); a canvas on top draws it.
+ * Text stays in the DOM the whole time (made transparent with html.tx-hide); a canvas on top draws it.
+ * Nothing here touches the attributes of elements React renders: the page may still be hydrating when
+ * this runs, and a changed class there is a hydration mismatch. State lives on <html> instead, and
+ * pictures are hidden with a Web Animation.
  */
 
 const ROOTS = "main, footer.site";
@@ -310,6 +313,10 @@ export function startPageBits(): PageBits | null {
   }
 
   // Every visible character (and picture) inside the roots, with where and how it's drawn.
+  const picAnims: Animation[] = [];
+  const hidePic = (el: Element) =>
+    picAnims.push(el.animate([{ visibility: "hidden" }], { duration: Infinity, fill: "both" }));
+
   function collect(roots: Element[]): Glyph[] {
     const vw = document.documentElement.clientWidth;
     const vh = innerHeight;
@@ -329,7 +336,7 @@ export function startPageBits(): PageBits | null {
           if (!onScreen(r, vw, vh) || cs.visibility !== "visible") continue;
           const pic = node instanceof HTMLImageElement ? imgPic(node, r, cs) : svgPic(node, r);
           if (!pic) continue;
-          node.classList.add("tx-pic");
+          hidePic(node);
           out.push({
             ch: "",
             font: "",
@@ -654,9 +661,8 @@ export function startPageBits(): PageBits | null {
     if (!run) return;
     cancelAnimationFrame(raf);
     for (const a of run.anims) a.cancel();
-    document.querySelectorAll(".tx-hide").forEach((el) => el.classList.remove("tx-hide"));
-    document.querySelectorAll(".tx-pic").forEach((el) => el.classList.remove("tx-pic"));
-    document.documentElement.classList.remove("tx-wait");
+    for (const a of picAnims.splice(0)) a.cancel();
+    document.documentElement.classList.remove("tx-hide", "tx-wait");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.hidden = true;
     run = null;
@@ -711,7 +717,7 @@ export function startPageBits(): PageBits | null {
     sizeCanvas();
     canvas.hidden = false;
     draw(now);
-    els.forEach((el) => el.classList.add("tx-hide"));
+    document.documentElement.classList.add("tx-hide");
     // The next page renders hidden until arrive() takes over.
     document.documentElement.classList.add("tx-wait");
     raf = requestAnimationFrame(loop);
@@ -728,7 +734,7 @@ export function startPageBits(): PageBits | null {
     }
     const now = performance.now();
     const els = roots();
-    els.forEach((el) => el.classList.add("tx-hide"));
+    document.documentElement.classList.add("tx-hide");
     const news = collect(els);
     const vh = innerHeight;
     r.swapped = true;
