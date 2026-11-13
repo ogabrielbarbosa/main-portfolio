@@ -1,17 +1,19 @@
 import { notFound } from "next/navigation";
 import { getExperience } from "@/content/experience";
 import { CASE_PATH, HOME_PATH, SECTION_IDS } from "@/content/shared";
-import { formatPeriod, getStories } from "@/content/star";
+import { formatPeriod } from "@/content/star";
 import type { Dictionary } from "@/content/types";
+import { mdxComponents } from "./mdx";
+import { PhotoViewer } from "./PhotoViewer";
 import { Shell } from "./Shell";
 
 export async function ExperiencePage({ dict, slug }: { dict: Dictionary; slug: string }) {
   const { locale, experience: t, caseStudy } = dict;
-  const page = await getExperience(slug, locale);
+  const page = await getExperience(slug, locale, mdxComponents);
   if (!page) notFound();
 
   const { frontmatter: fm, content } = page;
-  const cases = (await getStories(locale)).filter((s) => s.company === fm.company);
+  const project = fm.project ? dict.projects.items.find((p) => p.slug === fm.project) : undefined;
   const backHref = `${HOME_PATH[locale]}#${SECTION_IDS.work}`;
 
   return (
@@ -58,24 +60,6 @@ export async function ExperiencePage({ dict, slug }: { dict: Dictionary; slug: s
           </>
         )}
 
-        {cases.length > 0 && (
-          <>
-            <h2 className="label">{t.cases}</h2>
-            <ol className="log">
-              {cases.map((story, i) => (
-                <li key={story.slug} className="numbered">
-                  <span className="when">{String(i + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3>
-                      <a href={`${CASE_PATH[locale]}/${story.slug}`}>{story.title}</a>
-                    </h3>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </>
-        )}
-
         {fm.skills && fm.skills.length > 0 && (
           <>
             <h2 className="label">{caseStudy.stack}</h2>
@@ -86,7 +70,26 @@ export async function ExperiencePage({ dict, slug }: { dict: Dictionary; slug: s
             </ul>
           </>
         )}
+
+        {project && (
+          <>
+            <h2 className="label">{t.project}</h2>
+            <ol className="log">
+              <li>
+                <span className="when">{project.when}</span>
+                <div>
+                  <h3>
+                    <a href={`${CASE_PATH[locale]}/${project.slug}`}>{project.tagline}</a>{" "}
+                    <span className="org">· {project.name}</span>
+                  </h3>
+                  <p>{project.description}</p>
+                </div>
+              </li>
+            </ol>
+          </>
+        )}
       </article>
+      <PhotoViewer labels={t.viewer} />
     </Shell>
   );
 }

@@ -2,6 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import type { Locale } from "./types";
+import { contentVersion } from "./version";
 
 // One page per job (one folder per company): content/experience/<slug>/<locale>.mdx.
 // Results and photos live in the frontmatter, the story in the MDX body.
@@ -26,12 +27,15 @@ export interface ExperienceFrontmatter {
   results?: string[];
   skills?: string[];
   photos?: ExperiencePhoto[];
+  project?: string; // slug of a project in the dictionary, linked at the end of the page
 }
 
 const SHOW_DRAFTS = process.env.NODE_ENV !== "production";
 
-async function readSource(slug: string, locale: Locale) {
+// `version` only keys the cache (see contentVersion).
+async function readSource(slug: string, locale: Locale, version: number) {
   "use cache";
+  void version;
   try {
     return await readFile(path.join(EXPERIENCE_DIR, slug, `${locale}.mdx`), "utf8");
   } catch {
@@ -40,22 +44,27 @@ async function readSource(slug: string, locale: Locale) {
 }
 
 export async function getExperience(slug: string, locale: Locale, components = {}) {
-  const source = await readSource(slug, locale);
+  const source = await readSource(slug, locale, await contentVersion());
   if (!source) return null;
 
   const page = await compileMDX<ExperienceFrontmatter>({
     source,
     components,
-    options: { parseFrontmatter: true },
+    // Our own MDX passes plain arrays as props (<Moment photos={[...]}>), so plain JS
+    // expressions are allowed; dangerous ones (eval, require, ...) stay blocked.
+    options: { parseFrontmatter: true, blockJS: false, blockDangerousJS: true },
   });
   if (page.frontmatter.status !== "published" && !SHOW_DRAFTS) return null;
   return page;
 }
 
-export async function getExperienceSlugs() {
+async function readSlugs(version: number) {
   "use cache";
+  void version;
   return readdir(EXPERIENCE_DIR);
 }
+
+export const getExperienceSlugs = async () => readSlugs(await contentVersion());
 
 // Slugs with a page in this locale, so the home only links rows that have one.
 export async function getExperienceLinks(locale: Locale) {

@@ -34,7 +34,7 @@ export const en: Dictionary = {
       {
         when: "2025 – 2026",
         role: "Software Engineer",
-        org: "LiderHub",
+        org: "LíderHub",
         orgHref: "https://liderhub.ai/",
         slug: "liderhub",
         description:
@@ -74,20 +74,41 @@ export const en: Dictionary = {
     more: { label: "Full history", href: EXPERIENCE_PATH.en },
     meta: {
       title: "Work — Gabriel Barbosa",
-      description: "Gabriel Barbosa's full work history as a software engineer, from internship to LiderHub.",
+      description: "Gabriel Barbosa's full work history as a software engineer, from internship to LíderHub.",
     },
   },
   projects: {
     title: "Projects",
     empty: "Projects coming soon.",
+    results: "Results",
+    contributions: "My contributions",
+    cases: "Case studies",
     items: [
       {
+        slug: "liderhub",
         when: "2025 – 2026",
-        name: "LiderHub",
+        name: "LíderHub",
         href: "https://liderhub.ai/",
         tagline: "AI CRM for law firms",
         description:
-          "AI agents that talk to clients on WhatsApp and help law firms close contracts. I helped rebuild the product, which grew past 1,000 customers. The milestones:",
+          "AI-powered CRM that helps lawyers close contracts.",
+        about: [
+          "AI agents talk to the firm's clients on WhatsApp and help close and manage contracts. The team follows everything in the app: chat, search, kanban and contacts.",
+          "I joined when the product had around 150 customers and left with more than 1,200. Along the way I helped rebuild the whole app, kept it running and helped orchestrate the dev team.",
+        ],
+        results: [
+          "Customer base: from ~150 to 1,200+",
+          "Second version of the app rebuilt off no-code, in React + Supabase",
+          "Urgent bugs from 20 to 1 a week and ~95% less realtime traffic",
+          "Support inside the platform: 20k+ tickets handled",
+        ],
+        contributions: [
+          { title: "App rebuild.", text: "Moved the whole support system off no-code (chat, messages, search, kanban and contacts) and we shipped the new version in ~5 weeks." },
+          { title: "Maintenance.", text: "Kept the app running while the base grew: found what was blowing up realtime traffic and cut 95% of events without stopping production." },
+          { title: "Support.", text: "Moved support out of WhatsApp and Notion into the platform, with trackable tickets and incidents with an owner." },
+          { title: "Onboarding.", text: "Turned a hidden banner into a guided first access, with terms acceptance and call booking." },
+          { title: "Team.", text: "Moved tasks to GitHub Projects, standardized issues and PRs, and started leading the daily and the deploys." },
+        ],
         milestones: [
           {
             slug: "no-code-to-react-rebuild",
@@ -122,7 +143,9 @@ export const en: Dictionary = {
     after: "after",
     now: "now",
   },
-  experience: { results: "Results", photos: "Photos", cases: "Case studies" },
+  experience: { results: "Results", photos: "Photos", project: "Related project",
+    viewer: { prev: "Previous photo", next: "Next photo", close: "Close" },
+  },
   about: {
     meta: {
       title: "About — Gabriel Barbosa",

@@ -7,6 +7,7 @@ import { absolute } from "./seo";
 import { ABOUT_PATH, CASE_PATH, EXPERIENCE_PATH, HOME_PATH } from "./shared";
 import { getStories, getStory } from "./star";
 import type { Dictionary, Locale } from "./types";
+import { contentVersion } from "./version";
 
 // Everything on the site as one Markdown file for LLMs (/llms.txt and /en/llms.txt), built from the
 // same content as the pages, so it never drifts. Only published pages go in; drafts stay out.
@@ -60,17 +61,25 @@ const L = {
   },
 } as const;
 
-// MDX body without its frontmatter, headings pushed down so they nest under the section they land in.
+// MDX body without its frontmatter, headings pushed down so they nest under the section they land in,
+// and the story components (mdx.tsx) flattened to Markdown.
 async function body(dir: string, slug: string, locale: Locale, depth: number) {
   const source = await readFile(path.join(process.cwd(), "content", dir, slug, `${locale}.mdx`), "utf8");
   return source
     .replace(/^---\n[\s\S]*?\n---\n/, "")
     .replace(/^(#{1,6}) /gm, (_, h: string) => `${"#".repeat(Math.min(6, h.length + depth))} `)
+    .replace(/<\/?Timeline>\s*/g, "")
+    .replace(/^[ \t]*<Moment\s[^>]*?date="([^"]*)"[^>]*?title="([^"]*)"[\s\S]*?>\s*/gm, "- **$1 · $2.** ")
+    .replace(/\s*<\/Moment>/g, "")
+    .replace(/<Person\s[^>]*?name="([^"]*)"[^>]*\/>/g, "$1")
+    .replace(/<Person\s[^>]*>([\s\S]*?)<\/Person>/g, "$1")
     .trim();
 }
 
-export async function buildLlms(locale: Locale) {
+// `version` only keys the cache (see contentVersion).
+export async function buildLlms(locale: Locale, version: number) {
   "use cache";
+  void version;
   const d = DICT[locale];
   const t = L[locale];
   const out: string[] = [];
@@ -97,6 +106,7 @@ export async function buildLlms(locale: Locale) {
   d.work.items.forEach((job, i) => {
     if (job.slug && jobs[i]) push(`  - [${job.role} · ${job.org}](${absolute(`${EXPERIENCE_PATH[locale]}/${job.slug}`)})`);
   });
+  for (const p of d.projects.items) push(`- [${p.tagline} · ${p.name}](${absolute(`${CASE_PATH[locale]}/${p.slug}`)})`);
   for (const s of stories) push(`- [${s.title}](${absolute(`${CASE_PATH[locale]}/${s.slug}`)})`);
   push(`- [${d.about.title}](${absolute(ABOUT_PATH[locale])}): ${t.aboutNote}`, "");
 
@@ -126,9 +136,15 @@ export async function buildLlms(locale: Locale) {
   push(`## ${d.projects.title}`, "");
   if (!d.projects.items.length) push(d.projects.empty, "");
   for (const project of d.projects.items) {
-    push(`### ${project.name} · ${project.tagline} (${project.when})`, "");
-    if (project.href) push(`${t.site}: ${project.href}`, "");
-    push(project.description, "");
+    push(`### ${project.tagline} · ${project.name} (${project.when})`, "");
+    if (project.href) push(`${t.site}: ${project.href}`);
+    push(`${t.page}: ${absolute(`${CASE_PATH[locale]}/${project.slug}`)}`, "");
+    push(project.description, "", ...(project.about ?? []).flatMap((p) => [p, ""]));
+    if (project.results?.length) push(`#### ${d.projects.results}`, "", ...project.results.map((r) => `- ${r}`), "");
+    if (project.contributions?.length) {
+      push(`#### ${d.projects.contributions}`, "", ...project.contributions.map((c) => `- **${c.title}** ${c.text}`), "");
+    }
+    if (project.milestones?.length) push(`#### ${d.projects.cases}`, "");
     for (const m of project.milestones ?? []) {
       push(published.has(m.slug) ? `- [${m.text}](${absolute(`${CASE_PATH[locale]}/${m.slug}`)})` : `- ${m.text}`);
     }
@@ -169,4 +185,4 @@ export async function buildLlms(locale: Locale) {
 }
 
 export const llmsResponse = async (locale: Locale) =>
-  new Response(await buildLlms(locale), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+  new Response(await buildLlms(locale, await contentVersion()), { headers: { "Content-Type": "text/plain; charset=utf-8" } });

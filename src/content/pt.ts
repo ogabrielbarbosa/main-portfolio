@@ -34,7 +34,7 @@ export const pt: Dictionary = {
       {
         when: "2025 – 2026",
         role: "Software Engineer",
-        org: "LiderHub",
+        org: "LíderHub",
         orgHref: "https://liderhub.ai/",
         slug: "liderhub",
         description:
@@ -74,20 +74,41 @@ export const pt: Dictionary = {
     more: { label: "Histórico completo", href: EXPERIENCE_PATH.pt },
     meta: {
       title: "Experiência — Gabriel Barbosa",
-      description: "Todas as experiências de Gabriel Barbosa como engenheiro de software, do estágio à LiderHub.",
+      description: "Todas as experiências de Gabriel Barbosa como engenheiro de software, do estágio à LíderHub.",
     },
   },
   projects: {
     title: "Projetos",
     empty: "Projetos chegando em breve.",
+    results: "Resultados",
+    contributions: "Minhas contribuições",
+    cases: "Cases",
     items: [
       {
+        slug: "liderhub",
         when: "2025 – 2026",
-        name: "LiderHub",
+        name: "LíderHub",
         href: "https://liderhub.ai/",
         tagline: "CRM com IA para advocacia",
         description:
-          "Agentes de IA que atendem pelo WhatsApp e ajudam escritórios de advocacia a fechar contratos. Ajudei a reconstruir o produto, que passou de 1.000 clientes. Os marcos:",
+          "CRM com inteligência artificial que ajuda advogados a fecharem contratos.",
+        about: [
+          "Agentes de IA conversam com os clientes do escritório pelo WhatsApp e ajudam a fechar e gerenciar os contratos. A equipe acompanha tudo no app: chat, busca, kanban e contatos.",
+          "Entrei quando o produto tinha cerca de 150 clientes e saí com mais de 1.200. Nesse meio tempo ajudei a reconstruir o app inteiro, mantive ele de pé e ajudei a orquestrar a equipe de dev.",
+        ],
+        results: [
+          "Base de clientes: de ~150 para 1.200+",
+          "Segunda versão do app reconstruída fora do no-code, em React + Supabase",
+          "Bugs urgentes de 20 para 1 por semana e ~95% menos tráfego realtime",
+          "Suporte dentro da plataforma: 20 mil+ tickets atendidos",
+        ],
+        contributions: [
+          { title: "Reconstrução do app.", text: "Tirei do no-code todo o sistema de atendimento (chat, mensagens, busca, kanban e contatos) e lançamos a nova versão em ~5 semanas." },
+          { title: "Manutenção.", text: "Mantive o app de pé enquanto a base crescia: achei a causa do tráfego realtime explodindo e cortei 95% dos eventos sem parar a produção." },
+          { title: "Suporte.", text: "Levei o suporte do WhatsApp e do Notion para dentro da plataforma, com tickets rastreáveis e incidentes com dono." },
+          { title: "Onboarding.", text: "Transformei um banner escondido num primeiro acesso guiado, com aceite dos termos e agendamento da call." },
+          { title: "Equipe.", text: "Levei as tarefas para o GitHub Projects, padronizei issues e PRs e passei a conduzir a daily e os deploys." },
+        ],
         milestones: [
           {
             slug: "no-code-to-react-rebuild",
@@ -122,7 +143,9 @@ export const pt: Dictionary = {
     after: "depois",
     now: "hoje",
   },
-  experience: { results: "Resultados", photos: "Fotos", cases: "Cases" },
+  experience: { results: "Resultados", photos: "Fotos", project: "Projeto vinculado",
+    viewer: { prev: "Foto anterior", next: "Próxima foto", close: "Fechar" },
+  },
   about: {
     meta: {
       title: "Sobre mim — Gabriel Barbosa",

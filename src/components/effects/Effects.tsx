@@ -54,7 +54,8 @@ export function Effects() {
     const onClick = (e: MouseEvent) => {
       if (!bits.current || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const link = (e.target as Element).closest?.("a");
-      if (!link || link.target || link.hasAttribute("download")) return;
+      // data-viewer links open in the photo gallery (PhotoViewer), not a new page.
+      if (!link || link.target || link.hasAttribute("download") || link.hasAttribute("data-viewer")) return;
       const url = new URL(link.href, location.href);
       if (url.origin !== location.origin || url.pathname === location.pathname) return;
       // /en and / have separate root layouts, so that switch is a full page load anyway.

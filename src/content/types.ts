@@ -26,12 +26,19 @@ export interface Milestone {
   text: string;
 }
 
+// A project page lives at CASE_PATH/<slug>, next to its milestones' cases.
 export interface Project {
+  slug: string;
   when: string;
   name: string;
   href?: string;
   tagline: string;
   description: string;
+  // Longer explanation, one string per paragraph, shown on the project page.
+  about?: string[];
+  results?: string[];
+  // "**Title.** text" bullets: title in bold, then what I did.
+  contributions?: { title: string; text: string }[];
   milestones?: Milestone[];
 }
 
@@ -52,7 +59,14 @@ export interface Dictionary {
     meta: { title: string; description: string };
   };
   // Products I built or helped build; milestones link to the STAR cases.
-  projects: { title: string; empty: string; items: Project[] };
+  projects: {
+    title: string;
+    empty: string;
+    results: string;
+    contributions: string;
+    cases: string;
+    items: Project[];
+  };
   caseStudy: {
     back: string;
     metrics: string;
@@ -62,7 +76,12 @@ export interface Dictionary {
     after: string;
     now: string;
   };
-  experience: { results: string; photos: string; cases: string };
+  experience: {
+    results: string;
+    photos: string;
+    project: string;
+    viewer: { prev: string; next: string; close: string };
+  };
   about: {
     meta: { title: string; description: string };
     title: string;

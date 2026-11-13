@@ -1,7 +1,6 @@
 import Image from "next/image";
 import photo from "@/assets/gabriel.jpeg";
 import { CASE_PATH, SECTION_IDS } from "@/content/shared";
-import { getStories } from "@/content/star";
 import type { Dictionary } from "@/content/types";
 import { Logo } from "./Logos";
 import { PersonJsonLd } from "./PersonJsonLd";
@@ -54,40 +53,27 @@ export async function HomePage({ dict }: { dict: Dictionary }) {
   );
 }
 
-// Projects, each with its milestones; a milestone links to its case only when the
-// case is visible (published, or any status in dev).
-export async function ProjectList({ dict }: { dict: Dictionary }) {
+// Projects on the home: a short row each; the tagline opens the full project page.
+export function ProjectList({ dict }: { dict: Dictionary }) {
   const { projects, locale } = dict;
   if (!projects.items.length) return <p className="empty">{projects.empty}</p>;
-  const cases = new Set((await getStories(locale)).map((s) => s.slug));
 
   return (
     <ol className="log">
-      {projects.items.map((project) => (
-        <li key={project.name}>
-          <span className="when">{project.when}</span>
-          <div>
-            <h3>
-              {project.href ? <a href={project.href}>{project.name}</a> : project.name}{" "}
-              <span className="org">· {project.tagline}</span>
-            </h3>
-            <p>{project.description}</p>
-            {project.milestones && project.milestones.length > 0 && (
-              <ul className="milestones">
-                {project.milestones.map((m) => (
-                  <li key={m.slug}>
-                    {cases.has(m.slug) ? (
-                      <a href={`${CASE_PATH[locale]}/${m.slug}`}>{m.text}</a>
-                    ) : (
-                      m.text
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </li>
-      ))}
+      {projects.items.map((project) => {
+        const page = `${CASE_PATH[locale]}/${project.slug}`;
+        return (
+          <li key={project.slug}>
+            <span className="when">{project.when}</span>
+            <div>
+              <h3>
+                <a href={page}>{project.tagline}</a> <span className="org">· {project.name}</span>
+              </h3>
+              <p>{project.description}</p>
+            </div>
+          </li>
+        );
+      })}
     </ol>
   );
 }

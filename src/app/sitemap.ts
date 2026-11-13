@@ -3,6 +3,7 @@ import { getExperience, getExperienceSlugs } from "@/content/experience";
 import { absolute, type PagePaths } from "@/content/seo";
 import { ABOUT_PATH, CASE_PATH, EXPERIENCE_PATH, HOME_PATH } from "@/content/shared";
 import { getStories } from "@/content/star";
+import { pt } from "@/content/pt";
 
 // Every published page in both languages, each pointing at its translation.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -11,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       (await getExperienceSlugs()).map(async (slug) => ((await getExperience(slug, "pt")) ? slug : null)),
     )
   ).filter((slug) => slug !== null);
-  const cases = (await getStories("pt")).map((s) => s.slug);
+  const cases = [...pt.projects.items.map((p) => p.slug), ...(await getStories("pt")).map((s) => s.slug)];
 
   const pages: { paths: PagePaths; priority: number }[] = [
     { paths: HOME_PATH, priority: 1 },

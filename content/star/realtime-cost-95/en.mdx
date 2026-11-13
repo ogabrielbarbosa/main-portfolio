@@ -1,12 +1,12 @@
 ---
-title: "Cut LiderHub's realtime traffic by 95% without stopping production"
+title: "Cut LíderHub's realtime traffic by 95% without stopping production"
 name: "REALTIME"
 slug: realtime-cost-95
 locale: en
-status: draft
+status: published
 summary: "Found an O(N²) keepalive and ~5% of tenants generating ~70% of traffic, moved to broadcast, and dropped events from ~40M to ~2M a day."
 role: Software Developer
-company: LiderHub
+company: LíderHub
 companyPublic: true
 period:
   start: "2026-03"
@@ -32,7 +32,7 @@ order: 2
 
 ## Situation
 
-In March 2026, with over a thousand customers on LiderHub, realtime produced ~80 million events in 2 days. Websocket latency hit 12 s and users kept refreshing. The database was ~300 GB on an 8XL instance, cost ~US$ 4.3k/month and was trending to ~US$ 6k.
+In March 2026, with over a thousand customers on LíderHub, realtime produced ~80 million events in 2 days. Websocket latency hit 12 s and users kept refreshing. The database was ~300 GB on an 8XL instance, cost ~US$ 4.3k/month and was trending to ~US$ 6k.
 
 ## Task
 

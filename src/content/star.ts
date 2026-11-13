@@ -2,6 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import type { Locale } from "./types";
+import { contentVersion } from "./version";
 
 // STAR cases live in content/star/<slug>/<locale>.mdx (schema: .claude/skills/star-story/references/schema.md).
 const STAR_DIR = path.join(process.cwd(), "content/star");
@@ -44,8 +45,10 @@ export interface StarFrontmatter {
 const SHOW_DRAFTS = process.env.NODE_ENV !== "production";
 
 // Files only change between builds, so reads are cached (required by Cache Components).
-async function readSource(slug: string, locale: Locale) {
+// `version` only keys the cache (see contentVersion).
+async function readSource(slug: string, locale: Locale, version: number) {
   "use cache";
+  void version;
   try {
     return await readFile(path.join(STAR_DIR, slug, `${locale}.mdx`), "utf8");
   } catch {
@@ -54,7 +57,7 @@ async function readSource(slug: string, locale: Locale) {
 }
 
 export async function getStory(slug: string, locale: Locale, components = {}) {
-  const source = await readSource(slug, locale);
+  const source = await readSource(slug, locale, await contentVersion());
   if (!source) return null;
 
   const story = await compileMDX<StarFrontmatter>({
@@ -68,10 +71,13 @@ export async function getStory(slug: string, locale: Locale, components = {}) {
 
 // Every case folder, drafts included: draft pages 404 in production instead of
 // leaving generateStaticParams empty (Cache Components requires at least one param).
-export async function getSlugs() {
+async function readSlugs(version: number) {
   "use cache";
+  void version;
   return readdir(STAR_DIR);
 }
+
+export const getSlugs = async () => readSlugs(await contentVersion());
 
 export async function getStories(locale: Locale) {
   const slugs = await getSlugs();

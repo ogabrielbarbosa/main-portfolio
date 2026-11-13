@@ -286,6 +286,8 @@ export function startKeyNav() {
   function onKey(e: KeyboardEvent) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if ((e.target as Element).closest?.("input, textarea, select, [contenteditable]")) return;
+    // An open dialog (e.g. the photo gallery) owns the keyboard.
+    if (document.querySelector("dialog[open]")) return;
 
     if (query !== null) {
       e.preventDefault();

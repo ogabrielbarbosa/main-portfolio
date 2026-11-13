@@ -1,12 +1,12 @@
 ---
-title: "Cortei 95% do tráfego realtime da LiderHub sem parar a produção"
+title: "Cortei 95% do tráfego realtime da LíderHub sem parar a produção"
 name: "REALTIME"
 slug: realtime-cost-95
 locale: pt
-status: draft
+status: published
 summary: "Achei um keepalive O(N²) e ~5% das empresas gerando ~70% do tráfego, migrei para broadcast e derrubei os eventos de ~40M para ~2M por dia."
 role: Desenvolvedor de Software
-company: LiderHub
+company: LíderHub
 companyPublic: true
 period:
   start: "2026-03"
@@ -32,7 +32,7 @@ order: 2
 
 ## Situação
 
-Em março de 2026, com mais de mil clientes na LiderHub, o realtime gerou ~80 milhões de eventos em 2 dias. A latência do websocket chegou a 12 s e usuários davam refresh várias vezes. O banco tinha ~300 GB em 8XL, custava ~US$ 4,3 mil/mês e projetava ~US$ 6 mil.
+Em março de 2026, com mais de mil clientes na LíderHub, o realtime gerou ~80 milhões de eventos em 2 dias. A latência do websocket chegou a 12 s e usuários davam refresh várias vezes. O banco tinha ~300 GB em 8XL, custava ~US$ 4,3 mil/mês e projetava ~US$ 6 mil.
 
 ## Tarefa
 

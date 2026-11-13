@@ -285,20 +285,6 @@ p {
   font-size: 15px;
 }
 
-/* Milestones nested in a project row: a plain bulleted list, not a log row. */
-.log .milestones {
-  margin: 8px 0 0;
-  padding-left: 18px;
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.log .milestones li {
-  display: list-item;
-  padding: 3px 0;
-  border: 0;
-}
-
 .log .where {
   font: 12px/1.6 var(--mono);
   color: var(--muted);
@@ -744,4 +730,354 @@ html.entering :is(main, footer.site) {
   to {
     opacity: 1;
   }
+}
+
+/* Story timeline in experience MDX (<Timeline>/<Moment>, components/mdx.tsx).
+   Each row: [24px node column | body]. The node column draws the line through the
+   centre of its dot, so the line is continuous and always crosses the dots' centres. */
+article.post .tl {
+  list-style: none;
+  margin: 24px 0 8px;
+  padding: 0;
+}
+
+article.post .tl-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  column-gap: 16px;
+  margin: 0;
+}
+
+article.post .tl-row::marker {
+  content: none;
+}
+
+/* The line: x = 12px (centre of the node column), full row height. */
+.tl-row::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.tl-row:first-child::before {
+  top: 14px;
+}
+
+.tl-row:last-child::before {
+  bottom: auto;
+  height: 14px;
+}
+
+/* Dots: centred on x = 12px and on the first text line of the row. */
+.tl-node {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.tl-moment {
+  padding-bottom: 44px;
+}
+
+.tl-body {
+  min-width: 0;
+}
+
+.tl-date {
+  display: block;
+  font: 500 13px/20px var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+article.post .tl-title {
+  margin: 4px 0 4px;
+  font: 600 19px/1.3 var(--sans);
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+article.post .tl-place {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font: 12px/1.6 var(--mono);
+  color: var(--muted);
+}
+
+.tl-text p {
+  margin: 0 0 10px;
+  font-size: 15.5px;
+  color: color-mix(in srgb, var(--fg) 78%, var(--muted));
+}
+
+.tl-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Photos: small thumbnails (100 x 60) in a row; click opens the full photo. */
+/* One row of thumbnails per moment; more photos than fit scroll sideways. */
+.tl-gallery {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  padding-bottom: 8px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--faint) transparent;
+}
+
+.tl-gallery::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tl-gallery::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: var(--faint);
+}
+
+.tl-thumb {
+  flex: none;
+  scroll-snap-align: start;
+  display: block;
+  width: 100px;
+  height: 60px;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--faint);
+  background: var(--soft);
+}
+
+.tl-thumb {
+  cursor: zoom-in;
+}
+
+article.post .tl-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  transition: transform 0.25s ease;
+}
+
+.tl-thumb:hover img {
+  transform: scale(1.06);
+}
+
+/* Page gallery (PhotoViewer.tsx): one photo at a time, arrows to move, subtle caption. */
+.viewer {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+}
+
+.viewer::backdrop {
+  background: rgb(0 0 0 / 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.viewer[open] {
+  display: grid;
+  place-items: center;
+}
+
+.viewer-frame {
+  position: relative;
+  margin: 0;
+  max-width: min(92vw, 1100px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.6);
+}
+
+article.post ~ .viewer img,
+.viewer-frame img {
+  display: block;
+  max-width: min(92vw, 1100px);
+  max-height: 84dvh;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  animation: viewer-in 0.2s ease;
+}
+
+@keyframes viewer-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Caption over the bottom of the photo, on a soft gradient. */
+.viewer-frame figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 40px 16px 14px;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.75), transparent);
+  pointer-events: none;
+}
+
+.viewer-caption {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.85);
+}
+
+/* Dev only: the caption is a textarea you can type in. */
+.viewer-frame figcaption.editable {
+  pointer-events: auto;
+}
+
+textarea.viewer-caption {
+  width: 100%;
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px dashed rgb(255 255 255 / 0.25);
+  border-radius: 6px;
+  background: rgb(0 0 0 / 0.35);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.9);
+  resize: none;
+  outline: none;
+}
+
+textarea.viewer-caption:focus {
+  border-color: var(--accent);
+}
+
+.viewer-status {
+  font: 11px/1.4 var(--mono);
+  color: var(--accent);
+}
+
+.viewer-nav,
+.viewer-close {
+  position: fixed;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 50%;
+  background: rgb(20 20 19 / 0.7);
+  color: var(--fg);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.viewer-nav:hover,
+.viewer-close:hover {
+  background: rgb(40 40 38 / 0.9);
+}
+
+.viewer-nav {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.viewer-nav.prev {
+  left: max(12px, calc(50vw - 600px));
+}
+
+.viewer-nav.next {
+  right: max(12px, calc(50vw - 600px));
+}
+
+.viewer-close {
+  top: 16px;
+  right: 16px;
+}
+
+@media (max-width: 640px) {
+  .viewer-nav {
+    top: auto;
+    bottom: 20px;
+    transform: none;
+  }
+}
+
+/* A person in the text: highlighted name, card on hover. */
+.person {
+  position: relative;
+  color: var(--fg);
+  cursor: help;
+  outline: none;
+}
+
+.person-card {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  top: calc(100% + 6px);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: max-content;
+  max-width: min(280px, 80vw);
+  padding: 10px 12px;
+  border: 1px solid var(--faint);
+  border-radius: 10px;
+  background: var(--soft);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.5);
+  color: var(--muted);
+  font: 13px/1.5 var(--sans);
+  text-decoration: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+  pointer-events: none;
+}
+
+.person-card img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50% !important;
+  flex: none;
+}
+
+.person-card strong {
+  display: block;
+  color: var(--fg);
+}
+
+.person-role,
+.person-note {
+  display: block;
+}
+
+.person:hover .person-card,
+.person:focus .person-card {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
 }
