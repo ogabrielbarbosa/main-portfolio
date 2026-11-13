@@ -286,11 +286,12 @@ export function startPageBits(): PageBits | null {
     const radius = cs.borderRadius.endsWith("%")
       ? (parseFloat(cs.borderRadius) / 100) * Math.min(r.width, r.height)
       : parseFloat(cs.borderRadius) || 0;
+    // Cover-fit in destination space and let the clip crop it. A source rect (9-arg drawImage) is
+    // read in raw bitmap pixels by Safari but in density-corrected pixels elsewhere, so with srcset
+    // 2x/3x images iOS drew a zoomed-in crop.
     const cover = Math.max(r.width / img.naturalWidth, r.height / img.naturalHeight);
-    const sw = r.width / cover;
-    const sh = r.height / cover;
-    const sx = (img.naturalWidth - sw) / 2;
-    const sy = (img.naturalHeight - sh) / 2;
+    const dw = img.naturalWidth * cover;
+    const dh = img.naturalHeight * cover;
     const draw = (c: CanvasRenderingContext2D, x: number, y: number, color?: string) => {
       c.save();
       c.beginPath();
@@ -299,7 +300,7 @@ export function startPageBits(): PageBits | null {
       if (color) {
         c.fillStyle = color;
         c.fill();
-      } else c.drawImage(img, sx, sy, sw, sh, x, y, r.width, r.height);
+      } else c.drawImage(img, x + (r.width - dw) / 2, y + (r.height - dh) / 2, dw, dh);
       c.restore();
     };
     const w = Math.ceil(r.width) + 4;
@@ -321,6 +322,8 @@ export function startPageBits(): PageBits | null {
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
       for (let node = walker.nextNode(); node; node = walker.nextNode()) {
         if (node instanceof SVGSVGElement || node instanceof HTMLImageElement) {
+          // The profile photo stays put: it never breaks into bits or flies in.
+          if (node instanceof HTMLImageElement && node.classList.contains("avatar")) continue;
           const r = node.getBoundingClientRect();
           const cs = getComputedStyle(node);
           if (!onScreen(r, vw, vh) || cs.visibility !== "visible") continue;

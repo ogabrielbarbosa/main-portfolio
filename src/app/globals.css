@@ -727,7 +727,7 @@ html.tx-wait :is(main, footer.site) ::after {
 }
 
 .tx-pic,
-html.tx-wait :is(main, footer.site) :is(img, svg) {
+html.tx-wait :is(main, footer.site) :is(img:not(.avatar), svg) {
   visibility: hidden;
 }
 
