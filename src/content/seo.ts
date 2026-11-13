@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "./types";
 
-export const SITE_URL = "https://ogabarbosa.com";
+export const SITE_URL = "https://www.ogabarbosa.com";
 export const SITE_NAME = "Gabriel Barbosa";
 
 // Share card (public/og.png), used by every page.
