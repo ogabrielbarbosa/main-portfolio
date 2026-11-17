@@ -1,3 +1,4 @@
 import { llmsResponse } from "@/content/llms";
 
-export const GET = () => llmsResponse("pt");
+// Always in English (one file for every visitor).
+export const GET = () => llmsResponse();

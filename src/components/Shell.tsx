@@ -34,7 +34,7 @@ export function Shell({ dict, current, children }: { dict: Dictionary; current?:
           </span>{" "}
           <a href={email.href}>{email.value}</a>
         </span>
-        <a className="llms" href={dict.locale === "pt" ? "/llms.txt" : "/en/llms.txt"}>
+        <a className="llms" href="/llms.txt">
           llms.txt
         </a>
       </footer>
