@@ -1,6 +1,6 @@
 ---
 title: "Built LíderHub's ticket and incident system: 20k+ tickets and ~40% fewer tickets per customer"
-name: "TICKETS & INCIDENTS"
+name: "Ticket system"
 slug: support-tickets-incidents
 locale: en
 status: published
@@ -22,22 +22,6 @@ metrics:
     after: "~1.7"
     value: "~-40%"
     approximate: true
-  - label: Support rating
-    before: "~4.2"
-    after: "~4.8"
-    value: "~4.8"
-    approximate: true
-evidence:
-  - id: pr-tickets
-    type: github
-    src: https://github.com/liderhubai/breezy-omni-chat/pull/169
-    caption: Ticket system PR (Sep 2025)
-    supports: action
-  - id: pr-incidents
-    type: github
-    src: https://github.com/liderhubai/breezy-omni-chat/pull/435
-    caption: Incident Manager PR (Dec 2025)
-    supports: action
 featured: false
 order: 3
 ---
@@ -48,11 +32,14 @@ Until September 2025, LíderHub customers reported problems through the support 
 
 ## Task
 
-Caio set the requirements: what the system needed, the statuses and the closing flow. My job was to build support into the platform, so customers could open and follow their own tickets and widespread problems got a name and an owner.
+The system needed clear statuses and a closing flow. My job was to build support into the platform, so customers could open and follow their own tickets and widespread problems got a name and an owner.
 
 ## Action
 
 1. Built the ticket system inside the app. Customers open a ticket straight from a chat message, talk to support in real time and rate the service when it closes.
+
+![A customer ticket: conversation with the support agent, a reply arriving and closing with a 5-star rating (mock data)](/star/support-tickets-incidents/ticket-conversa.gif)
+
 2. Built time-between-status metrics (time to first response, time to resolve, time blocked) so support could measure its own service.
 3. Shipped v3 in November 2025, with ticket grouping, support intervention and role-based permissions.
 4. Built the Incident Manager in December 2025. A problem affecting many customers becomes an incident with a name, an owner and a timeline, and its related tickets are grouped under it. Added mentions and notifications to page the owner.
@@ -60,4 +47,4 @@ Caio set the requirements: what the system needed, the statuses and the closing 
 
 ## Result
 
-Over 14 months the system handled more than 20k tickets from nearly 2,000 workspaces. In the same period the customer base doubled, tickets per active customer dropped about 40% (from ~3 to ~1.7 a month) and the support rating rose from ~4.2 to ~4.8, with 5x more ratings per month.
+Over 14 months the system handled more than 20k tickets from nearly 2,000 workspaces. In the same period the customer base doubled and tickets per active customer dropped about 40% (from ~3 to ~1.7 a month).

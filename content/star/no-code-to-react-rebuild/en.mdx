@@ -1,10 +1,10 @@
 ---
 title: "Moved LíderHub's chat off no-code and cut urgent bugs from 20 to 1"
-name: "REACT CHAT"
+name: "Chat"
 slug: no-code-to-react-rebuild
 locale: en
 status: published
-summary: "Rebuilt the chat of an AI CRM that kept freezing on WeWeb in React + Supabase, shipped it in ~5 weeks and stabilized production in ~4."
+summary: "Rebuilt in React the chat of an AI CRM that kept freezing on no-code, made it hold up at scale and cut urgent bugs from 20 to 1 a week."
 role: Software Developer
 company: LíderHub
 companyPublic: true
@@ -19,33 +19,41 @@ metrics:
     after: "1"
     value: "20 → 1"
     approximate: false
-  - label: Kickoff to launch
-    value: "~5 weeks"
+  - label: Time to open a conversation
+    before: "~3 s"
+    after: "<1 s"
+    value: "instant"
     approximate: true
-  - label: Customers on the chat today
-    value: "1,000+"
+  - label: Customers on the chat
+    before: "~450"
+    after: "1,100+"
+    value: "1,100+"
     approximate: true
-evidence: []
 featured: true
 order: 1
 ---
 
 ## Situation
 
-LíderHub is an AI CRM that helps law firms close contracts over WhatsApp. In 2025 the app ran on no-code (Bubble + WeWeb). It used over 3 GB of RAM, froze the browser, delivered messages late, and customers were cancelling.
+LíderHub is an AI CRM that helps law firms close contracts over WhatsApp. In 2025 the front end ran on no-code (WeWeb): it used over 3 GB of RAM, messages arrived late, the app was slow to load, and that was the main reason customers cancelled.
+
+<Compare
+  before={{ src: "/star/no-code-to-react-rebuild/chat-antigo.gif", alt: "Animation of the old chat: switching between conversations, messages stuck loading and the screen freezing", label: "Before · WeWeb + Bubble" }}
+  after={{ src: "/star/no-code-to-react-rebuild/chat-novo.gif", alt: "Animation of the new chat: switching between conversations, messages and contact details show up instantly", label: "After · React" }}
+/>
 
 ## Task
 
-The team decided to rewrite it in React + Supabase. I owned the whole support experience: chat, messages, search, kanban and contacts. We had about 5 weeks to launch, much of it working on-site with the team in Florianópolis.
+The team decided to rewrite the front end in React, with Supabase already as the backend. I owned the chat, messages, search and contacts and, above all, making everything fast enough to hold up under a customer base that kept growing.
 
 ## Action
 
-1. Mapped the entire old app before writing code: message types, formatting, assignment rules, tags and logs.
-2. Rebuilt the chat with a lean list and an event-driven cache, instead of refetching everything on each message.
-3. Made realtime respect filters, together with Pedro: an event only enters the list if it matches the active filter.
-4. Led stabilization after the August 2, 2025 launch: traced the chat that closed on its own, fixed a blank-screen crash within a day, and merged 8 branches from 3 developers on August 26.
-5. Built bidirectional pagination: jumping to an old message loads only its page and its neighbors. I built visual debug panels to get the logic right.
+1. Mapped the whole old app before writing code: every message type, format, assignment rule and tag. The new version couldn't lose anything customers already relied on.
+2. Went after the weight. The old app reloaded the entire list on every new message. I rebuilt the chat with a lean list and an event-driven cache: a message arrives, only its conversation changes.
+3. Made realtime respect the filters on screen: a conversation only enters the list if it matches the open filter, with no reload.
+4. Loaded messages in pages. The chat opens with the 20 most recent and fetches older ones as you scroll up. To find and jump to an old message without reading the whole history, I built two-way pagination: <ProjectLink href="/en/projects/chat-message-search">Message search optimization</ProjectLink>.
+5. After launch, I stayed on the front line until the chat stopped breaking: tracked down the cause of every urgent bug and merged the work of 3 developers into one release.
 
 ## Result
 
-Urgent bugs dropped from 20 to 1 per week in about 4 weeks. Today over a thousand customers run on this chat.
+Urgent bugs dropped from 20 to 1 a week in about 4 weeks. Opening a conversation went from about 3 seconds in the old app to instant. And the same chat held up while the customer base grew from ~450 to over 1,100.

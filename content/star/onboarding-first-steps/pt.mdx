@@ -1,6 +1,6 @@
 ---
 title: "Redesenhei o onboarding da LíderHub: semanas com 90%+ dos clientes novos aceitando os termos e agendando a call"
-name: "ONBOARDING"
+name: "Redesenho do onboarding"
 slug: onboarding-first-steps
 locale: pt
 status: published
@@ -29,14 +29,8 @@ metrics:
     after: "~60%"
     value: "~60%"
     approximate: true
-evidence:
-  - id: pr-onboarding
-    type: github
-    src: https://github.com/liderhubai/breezy-omni-chat/pull/1805
-    caption: PR do novo onboarding, termos e Primeiros Passos (set/2026)
-    supports: action
 featured: false
-order: 4
+order: 6
 ---
 
 ## Situação
@@ -50,7 +44,13 @@ Desenhei e construí um primeiro acesso que garantisse o aceite dos termos e o a
 ## Ação
 
 1. Tornei o aceite dos termos e o agendamento da call etapas obrigatórias do primeiro acesso. Sem elas, o cliente não avança.
+
+![Primeiro acesso: vídeo de boas-vindas, aceite obrigatório dos termos, agendamento da call e a tela de Primeiros Passos (dados fictícios)](/star/onboarding-first-steps/primeiro-acesso.gif)
+
 2. Criei um pop-up de termos para os clientes antigos. Ele pode ser fechado para não bloquear o trabalho, mas volta a cada novo acesso até o aceite.
+
+![Pop-up de termos para cliente antigo: pode ser fechado, volta no próximo acesso e some após o aceite (dados fictícios)](/star/onboarding-first-steps/popup-termos.gif)
+
 3. Troquei a home por uma tela de Primeiros Passos, com um checklist em 3 fases: agendar o onboarding, configuração básica e integrações.
 4. Protegi o registro do aceite com uma operação atômica no banco, para um evento atrasado não apagar a versão aceita. Mantive a função antiga em produção e lancei a nova em paralelo.
 5. Quando um cliente travou em loading infinito na tela de termos, reproduzi o bug numa conta nova, achei a causa e corrigi no mesmo dia.

@@ -80,70 +80,61 @@ export const en: Dictionary = {
   projects: {
     title: "Projects",
     empty: "Projects coming soon.",
-    results: "Results",
-    contributions: "My contributions",
-    cases: "Case studies",
     items: [
       {
-        slug: "liderhub",
-        when: "2025 – 2026",
-        name: "LíderHub",
-        href: "https://liderhub.ai/",
-        tagline: "AI CRM for lawyers",
-        description:
-          "AI agents on WhatsApp, from first contact to closed contract.",
-        about: [
-          "AI agents talk to the firm's clients on WhatsApp and help close and manage contracts. The team follows everything in the app: chat, search, kanban and contacts.",
-          "I joined when the product had around 150 customers and left with more than 1,200. Along the way I helped rebuild the whole app, kept it running and helped orchestrate the dev team.",
-        ],
-        results: [
-          "Customer base: from ~150 to 1,200+",
-          "Second version of the app rebuilt off no-code, in React + Supabase",
-          "Urgent bugs from 20 to 1 a week and ~95% less realtime traffic",
-          "Support inside the platform: 20k+ tickets handled",
-        ],
-        contributions: [
-          { title: "App rebuild.", text: "Moved the whole support system off no-code (chat, messages, search, kanban and contacts) and we shipped the new version in ~5 weeks." },
-          { title: "Maintenance.", text: "Kept the app running while the base grew: found what was blowing up realtime traffic and cut 95% of events without stopping production." },
-          { title: "Support.", text: "Moved support out of WhatsApp and Notion into the platform, with trackable tickets and incidents with an owner." },
-          { title: "Onboarding.", text: "Turned a hidden banner into a guided first access, with terms acceptance and call booking." },
-          { title: "Team.", text: "Moved tasks to GitHub Projects, standardized issues and PRs, and started leading the daily and the deploys." },
-        ],
-        milestones: [
-          {
-            slug: "no-code-to-react-rebuild",
-            text: "Moved the chat off no-code, shipped it in ~5 weeks and cut urgent bugs from 20 to 1 a week.",
-          },
-          {
-            slug: "support-tickets-incidents",
-            text: "Built the ticket and incident system: 20k+ tickets handled and ~40% fewer tickets per customer.",
-          },
-          {
-            slug: "realtime-cost-95",
-            text: "Cut ~95% of realtime traffic without stopping production.",
-          },
-          {
-            slug: "dev-process",
-            text: "Organized the dev process on GitHub Projects and led 100+ deploys.",
-          },
-          {
-            slug: "onboarding-first-steps",
-            text: "Redesigned the first access: ~94% of new customers accepting the terms.",
-          },
-        ],
+        slug: "no-code-to-react-rebuild",
+        name: "Chat",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Built the whole chat in React + Supabase, shipped it in ~5 weeks and cut urgent bugs from 20 to 1 a week.",
+      },
+      {
+        slug: "chat-message-search",
+        name: "Message search optimization",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Rewrote message search and the navigation to each result: ~4x faster (~5.3 s → ~1.3 s) on a ~4x bigger database.",
+      },
+      {
+        slug: "support-tickets-incidents",
+        name: "Ticket system",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Built support inside the platform, with tickets and incidents: 20k+ handled and ~40% fewer tickets per customer.",
+      },
+      // Escondido por enquanto (status: draft no MDX).
+      // {
+      //   slug: "realtime-cost-95",
+      //   name: "Database and realtime optimization",
+      //   org: "LíderHub",
+      //   experience: "liderhub",
+      //   description: "Optimized the database and Supabase's WebSocket and cut 95% of realtime traffic without stopping production.",
+      // },
+      {
+        slug: "dev-process",
+        name: "Development process",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Moved tasks from Notion to GitHub Projects, standardized issues and PRs and led 100+ deploys.",
+      },
+      {
+        slug: "onboarding-first-steps",
+        name: "Onboarding redesign",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Redesigned the platform's first access: weeks with 90%+ of new customers accepting the terms and booking the call.",
       },
     ],
   },
   caseStudy: {
     back: "back",
     metrics: "Results",
-    evidence: "Evidence",
     stack: "stack",
     before: "before",
     after: "after",
     now: "now",
   },
-  experience: { results: "Results", photos: "Photos", project: "Related project",
+  experience: { results: "Results", photos: "Photos", projects: "Projects",
     viewer: { prev: "Previous photo", next: "Next photo", close: "Close" },
   },
   about: {

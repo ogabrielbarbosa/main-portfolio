@@ -1,6 +1,6 @@
 ---
 title: "Redesigned LíderHub's onboarding: weeks with 90%+ of new customers accepting the terms and booking the call"
-name: "ONBOARDING"
+name: "Onboarding redesign"
 slug: onboarding-first-steps
 locale: en
 status: published
@@ -29,14 +29,8 @@ metrics:
     after: "~60%"
     value: "~60%"
     approximate: true
-evidence:
-  - id: pr-onboarding
-    type: github
-    src: https://github.com/liderhubai/breezy-omni-chat/pull/1805
-    caption: New onboarding, terms and First Steps PR (Sep 2026)
-    supports: action
 featured: false
-order: 4
+order: 6
 ---
 
 ## Situation
@@ -50,7 +44,13 @@ I designed and built a first login that secured terms acceptance and call bookin
 ## Action
 
 1. Made terms acceptance and call booking required steps of the first login. Customers can't move on without them.
+
+![First login: welcome video, required terms acceptance, call booking and the First Steps page (mock data)](/star/onboarding-first-steps/primeiro-acesso.gif)
+
 2. Built a terms pop-up for existing customers. They can close it so their work isn't blocked, but it comes back on every new login until they accept.
+
+![Terms pop-up for existing customers: it can be closed, comes back on the next login and goes away once accepted (mock data)](/star/onboarding-first-steps/popup-termos.gif)
+
 3. Replaced the home screen with a First Steps page, with a 3-phase checklist: book onboarding, basic setup and integrations.
 4. Protected the acceptance record with an atomic database operation, so a late event couldn't erase the accepted version. Kept the old function in production and shipped the new one alongside it.
 5. When a customer got stuck on an endless loading screen on the terms step, I reproduced the bug on a fresh account, found the cause and fixed it the same day.

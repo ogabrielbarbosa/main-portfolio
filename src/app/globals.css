@@ -438,6 +438,114 @@ article.post blockquote {
   color: var(--muted);
 }
 
+/* Results board on a project page: one card per metric, before/after bars when there are both. */
+/* One row with a column per metric (--cols, up to 3), flush with the text column. */
+article.post ul.board {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+article.post ul.board li {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--faint);
+  border-radius: 10px;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+}
+
+.board .value {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.board .what {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.board .bars {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: auto;
+  padding-top: 12px;
+  font: 12px/1.4 var(--mono);
+  color: var(--muted);
+}
+
+.board .bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--faint);
+  overflow: hidden;
+}
+
+.board .bar i {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--muted);
+}
+
+.board .bar.after i {
+  background: var(--accent);
+}
+
+.board .num {
+  text-align: right;
+  color: var(--fg);
+}
+
+/* Before/after pair inside a case. */
+article.post figure.compare {
+  margin: 24px 0 28px;
+}
+
+.compare-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+}
+
+.compare-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.compare-label {
+  font: 500 12px/1 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+article.post .compare img {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--faint);
+  border-radius: 10px;
+}
+
+.compare figcaption {
+  margin-top: 10px;
+  font: 12px/1.5 var(--mono);
+  color: var(--muted);
+}
+
 /* Footer */
 
 footer.site {
@@ -489,6 +597,10 @@ footer.site .llms {
 }
 
 @media (max-width: 520px) {
+  article.post ul.board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .log li {
     grid-template-columns: minmax(0, 1fr);
     gap: 2px;
@@ -1079,4 +1191,41 @@ textarea.viewer-caption:focus {
   opacity: 1;
   visibility: visible;
   transform: none;
+}
+
+/* Link to another project inside a story: small filled square tile, then the name.
+   Sized in em so the tile matches the surrounding text and sits on its line. */
+a.project-link {
+  font-size: inherit;
+  color: var(--fg);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.1em 0.35em;
+  margin: 0 -0.1em;
+  border-radius: 0.35em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background 0.15s;
+}
+
+a.project-link:hover,
+a.project-link:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.project-link-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.35em;
+  vertical-align: -0.125em;
+  border-radius: 0.22em;
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.project-link-icon svg {
+  width: 0.75em;
+  height: 0.75em;
 }

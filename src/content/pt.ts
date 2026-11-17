@@ -80,70 +80,61 @@ export const pt: Dictionary = {
   projects: {
     title: "Projetos",
     empty: "Projetos chegando em breve.",
-    results: "Resultados",
-    contributions: "Minhas contribuições",
-    cases: "Cases",
     items: [
       {
-        slug: "liderhub",
-        when: "2025 – 2026",
-        name: "LíderHub",
-        href: "https://liderhub.ai/",
-        tagline: "CRM com IA para advogados",
-        description:
-          "Agentes de IA no WhatsApp, do primeiro contato ao contrato fechado.",
-        about: [
-          "Agentes de IA conversam com os clientes do escritório pelo WhatsApp e ajudam a fechar e gerenciar os contratos. A equipe acompanha tudo no app: chat, busca, kanban e contatos.",
-          "Entrei quando o produto tinha cerca de 150 clientes e saí com mais de 1.200. Nesse meio tempo ajudei a reconstruir o app inteiro, mantive ele de pé e ajudei a orquestrar a equipe de dev.",
-        ],
-        results: [
-          "Base de clientes: de ~150 para 1.200+",
-          "Segunda versão do app reconstruída fora do no-code, em React + Supabase",
-          "Bugs urgentes de 20 para 1 por semana e ~95% menos tráfego realtime",
-          "Suporte dentro da plataforma: 20 mil+ tickets atendidos",
-        ],
-        contributions: [
-          { title: "Reconstrução do app.", text: "Tirei do no-code todo o sistema de atendimento (chat, mensagens, busca, kanban e contatos) e lançamos a nova versão em ~5 semanas." },
-          { title: "Manutenção.", text: "Mantive o app de pé enquanto a base crescia: achei a causa do tráfego realtime explodindo e cortei 95% dos eventos sem parar a produção." },
-          { title: "Suporte.", text: "Levei o suporte do WhatsApp e do Notion para dentro da plataforma, com tickets rastreáveis e incidentes com dono." },
-          { title: "Onboarding.", text: "Transformei um banner escondido num primeiro acesso guiado, com aceite dos termos e agendamento da call." },
-          { title: "Equipe.", text: "Levei as tarefas para o GitHub Projects, padronizei issues e PRs e passei a conduzir a daily e os deploys." },
-        ],
-        milestones: [
-          {
-            slug: "no-code-to-react-rebuild",
-            text: "Tirei o chat do no-code, lancei em ~5 semanas e cortei os bugs urgentes de 20 para 1 por semana.",
-          },
-          {
-            slug: "support-tickets-incidents",
-            text: "Criei o sistema de tickets e incidentes: 20 mil+ atendidos e ~40% menos tickets por cliente.",
-          },
-          {
-            slug: "realtime-cost-95",
-            text: "Cortei ~95% do tráfego realtime sem parar a produção.",
-          },
-          {
-            slug: "dev-process",
-            text: "Organizei o processo de dev no GitHub Projects e conduzi 100+ deploys.",
-          },
-          {
-            slug: "onboarding-first-steps",
-            text: "Redesenhei o primeiro acesso: ~94% dos clientes novos aceitando os termos.",
-          },
-        ],
+        slug: "no-code-to-react-rebuild",
+        name: "Chat",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Construí o chat inteiro em React + Supabase, lancei em ~5 semanas e cortei os bugs urgentes de 20 para 1 por semana.",
+      },
+      {
+        slug: "chat-message-search",
+        name: "Otimização da busca de mensagens",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Reescrevi a busca de mensagens e a navegação até o resultado: ~4x mais rápida (~5,3 s → ~1,3 s) com o banco ~4x maior.",
+      },
+      {
+        slug: "support-tickets-incidents",
+        name: "Sistema de tickets",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Construí o suporte dentro da plataforma, com tickets e incidentes: 20 mil+ atendidos e ~40% menos tickets por cliente.",
+      },
+      // Escondido por enquanto (status: draft no MDX).
+      // {
+      //   slug: "realtime-cost-95",
+      //   name: "Otimização do banco e realtime",
+      //   org: "LíderHub",
+      //   experience: "liderhub",
+      //   description: "Otimizei o banco e o WebSocket do Supabase e cortei 95% do tráfego realtime sem parar a produção.",
+      // },
+      {
+        slug: "dev-process",
+        name: "Processo de desenvolvimento",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Levei as tarefas do Notion para o GitHub Projects, padronizei issues e PRs e conduzi 100+ deploys.",
+      },
+      {
+        slug: "onboarding-first-steps",
+        name: "Redesenho do onboarding",
+        org: "LíderHub",
+        experience: "liderhub",
+        description: "Redesenhei o primeiro acesso da plataforma: semanas com 90%+ dos clientes novos aceitando os termos e agendando a call.",
       },
     ],
   },
   caseStudy: {
     back: "voltar",
     metrics: "Resultados",
-    evidence: "Evidências",
     stack: "stack",
     before: "antes",
     after: "depois",
     now: "hoje",
   },
-  experience: { results: "Resultados", photos: "Fotos", project: "Projeto vinculado",
+  experience: { results: "Resultados", photos: "Fotos", projects: "Projetos",
     viewer: { prev: "Foto anterior", next: "Próxima foto", close: "Fechar" },
   },
   about: {

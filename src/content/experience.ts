@@ -24,10 +24,10 @@ export interface ExperienceFrontmatter {
   period: { start: string; end?: string };
   where: string; // "Tempo integral · Híbrido · Londrina, PR"
   summary: string; // one-liner for the page lede and meta description
+  context?: string; // a line or two on what the company does, shown before the results
   results?: string[];
   skills?: string[];
   photos?: ExperiencePhoto[];
-  project?: string; // slug of a project in the dictionary, linked at the end of the page
 }
 
 const SHOW_DRAFTS = process.env.NODE_ENV !== "production";

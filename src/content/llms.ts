@@ -98,7 +98,6 @@ export async function buildLlms(locale: Locale, version: number) {
   // Published experience pages and cases, in the order the home shows them.
   const jobs = await Promise.all(d.work.items.map((job) => (job.slug ? getExperience(job.slug, locale) : null)));
   const stories = await getStories(locale);
-  const published = new Set(stories.map((s) => s.slug));
 
   push(`## ${t.pages}`, "");
   push(`- [${t.home}](${absolute(HOME_PATH[locale])}): ${t.homeNote}`);
@@ -106,7 +105,6 @@ export async function buildLlms(locale: Locale, version: number) {
   d.work.items.forEach((job, i) => {
     if (job.slug && jobs[i]) push(`  - [${job.role} · ${job.org}](${absolute(`${EXPERIENCE_PATH[locale]}/${job.slug}`)})`);
   });
-  for (const p of d.projects.items) push(`- [${p.tagline} · ${p.name}](${absolute(`${CASE_PATH[locale]}/${p.slug}`)})`);
   for (const s of stories) push(`- [${s.title}](${absolute(`${CASE_PATH[locale]}/${s.slug}`)})`);
   push(`- [${d.about.title}](${absolute(ABOUT_PATH[locale])}): ${t.aboutNote}`, "");
 
@@ -132,24 +130,13 @@ export async function buildLlms(locale: Locale, version: number) {
     }
   }
 
-  // Projects, with their milestones and the full case behind each published one.
+  // Projects: one row each; the full case follows in the cases section.
   push(`## ${d.projects.title}`, "");
   if (!d.projects.items.length) push(d.projects.empty, "");
   for (const project of d.projects.items) {
-    push(`### ${project.tagline} · ${project.name} (${project.when})`, "");
-    if (project.href) push(`${t.site}: ${project.href}`);
-    push(`${t.page}: ${absolute(`${CASE_PATH[locale]}/${project.slug}`)}`, "");
-    push(project.description, "", ...(project.about ?? []).flatMap((p) => [p, ""]));
-    if (project.results?.length) push(`#### ${d.projects.results}`, "", ...project.results.map((r) => `- ${r}`), "");
-    if (project.contributions?.length) {
-      push(`#### ${d.projects.contributions}`, "", ...project.contributions.map((c) => `- **${c.title}** ${c.text}`), "");
-    }
-    if (project.milestones?.length) push(`#### ${d.projects.cases}`, "");
-    for (const m of project.milestones ?? []) {
-      push(published.has(m.slug) ? `- [${m.text}](${absolute(`${CASE_PATH[locale]}/${m.slug}`)})` : `- ${m.text}`);
-    }
-    push("");
+    push(`- [${project.name} · ${project.org}](${absolute(`${CASE_PATH[locale]}/${project.slug}`)}): ${project.description}`);
   }
+  push("");
   if (stories.length) {
     push(`## ${t.cases}`, "");
     for (const s of stories) {

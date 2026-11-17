@@ -1,12 +1,14 @@
 import { notFound } from "next/navigation";
 import { HOME_PATH, SECTION_IDS } from "@/content/shared";
-import { formatPeriod, getStory, type StarEvidence } from "@/content/star";
+import { formatPeriod, getStory, type StarMetric } from "@/content/star";
 import type { Dictionary } from "@/content/types";
+
+import { mdxComponents } from "./mdx";
 import { Shell } from "./Shell";
 
 export async function CasePage({ dict, slug }: { dict: Dictionary; slug: string }) {
   const { locale, caseStudy } = dict;
-  const story = await getStory(slug, locale);
+  const story = await getStory(slug, locale, mdxComponents);
   if (!story) notFound();
 
   const { frontmatter: fm, content } = story;
@@ -18,7 +20,7 @@ export async function CasePage({ dict, slug }: { dict: Dictionary; slug: string 
         <p className="more" style={{ margin: "0 0 24px" }}>
           <a href={backHref}>← {caseStudy.back}</a>
         </p>
-        <h1>{fm.title}</h1>
+        <h1>{fm.name}</h1>
         <p className="meta">
           {fm.company} · {fm.role} · {formatPeriod(fm.period, locale, caseStudy.now).toLowerCase()}
         </p>
@@ -27,22 +29,11 @@ export async function CasePage({ dict, slug }: { dict: Dictionary; slug: string 
         {fm.metrics && fm.metrics.length > 0 && (
           <>
             <h2 className="label">{caseStudy.metrics}</h2>
-            <dl className="kv">
+            <ul className="board" style={{ "--cols": Math.min(fm.metrics.length, 3) } as React.CSSProperties}>
               {fm.metrics.map((m) => (
-                <div key={m.label} style={{ display: "contents" }}>
-                  <dt>{m.value}</dt>
-                  <dd>
-                    {m.label}
-                    {m.before && m.after && (
-                      <span style={{ color: "var(--muted)" }}>
-                        {" "}
-                        ({caseStudy.before} {m.before} → {caseStudy.after} {m.after})
-                      </span>
-                    )}
-                  </dd>
-                </div>
+                <MetricCard key={m.label} metric={m} labels={caseStudy} />
               ))}
-            </dl>
+            </ul>
           </>
         )}
 
@@ -59,57 +50,56 @@ export async function CasePage({ dict, slug }: { dict: Dictionary; slug: string 
           </>
         )}
 
-        {fm.evidence && fm.evidence.length > 0 && (
-          <>
-            <h2 className="label">{caseStudy.evidence}</h2>
-            <ol className="log">
-              {fm.evidence.map((item) => (
-                <Evidence key={item.id} item={item} />
-              ))}
-            </ol>
-          </>
-        )}
       </article>
     </Shell>
   );
 }
 
-function Evidence({ item }: { item: StarEvidence }) {
-  if (item.type === "quote") {
-    return (
-      <li>
-        <span className="when">{item.author}</span>
-        <blockquote>
-          <p>“{item.text}”</p>
-        </blockquote>
-      </li>
-    );
-  }
+// "~40M" → 40_000_000, "~1,7" → 1.7, "1.100+" / "1,100+" → 1100, "20 mil+" → 20_000,
+// "5 de 7" / "5 of 7" → 5/7 (a share). Returns null when there is no number to draw.
+function parseNum(raw: string): number {
+  // A separator followed by exactly three digits groups thousands (pt "1.100", en "1,100"); otherwise it is a decimal.
+  const s = /^\d{1,3}([.,]\d{3})+$/.test(raw) ? raw.replace(/[.,]/g, "") : raw.replace(",", ".");
+  return parseFloat(s);
+}
 
-  if (item.type === "image" && item.src) {
-    return (
-      <li>
-        <span className="when">{item.type}</span>
-        <figure style={{ margin: 0 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- evidence images come from MDX frontmatter */}
-          <img src={item.src} alt={item.alt ?? item.caption} />
-          <figcaption>
-            <p>{item.caption}</p>
-          </figcaption>
-        </figure>
-      </li>
-    );
-  }
+function toNumber(raw: string): number | null {
+  const share = raw.match(/(\d+(?:[.,]\d+)*)\s+(?:de|of)\s+(\d+(?:[.,]\d+)*)/);
+  if (share) return parseNum(share[1]) / parseNum(share[2]);
+  const m = raw.match(/(\d+(?:[.,]\d+)*)\s*(k|mil|M|B)?/);
+  if (!m) return null;
+  const scale = { k: 1e3, mil: 1e3, M: 1e6, B: 1e9 }[m[2] ?? ""] ?? 1;
+  return parseNum(m[1]) * scale;
+}
 
-  if (!item.src) return null;
+// One result: the headline number, what it measures and, when it has a before and after,
+// two bars sized against the larger of the two (or 100 for percentages).
+function MetricCard({ metric: m, labels }: { metric: StarMetric; labels: Dictionary["caseStudy"] }) {
+  const before = m.before ? toNumber(m.before) : null;
+  const after = m.after ? toNumber(m.after) : null;
+  // Percentages are drawn against 100%; anything else against the larger of the two.
+  const percent = /%/.test(`${m.before}${m.after}`);
+  const max = before !== null && after !== null ? (percent ? 100 : Math.max(before, after)) : 0;
+  const width = (n: number) => `${max ? Math.max((n / max) * 100, 1.5) : 0}%`;
+
   return (
     <li>
-      <span className="when">{item.type}</span>
-      <div>
-        <h3>
-          <a href={item.src}>{item.caption}</a>
-        </h3>
-      </div>
+      <strong className="value">{m.value}</strong>
+      <span className="what">{m.label}</span>
+      {m.before && m.after && max > 0 && (
+        <div className="bars">
+          <span className="tag">{labels.before}</span>
+          <span className="bar">
+            <i style={{ width: width(before!) }} />
+          </span>
+          <span className="num">{m.before}</span>
+          <span className="tag">{labels.after}</span>
+          <span className="bar after">
+            <i style={{ width: width(after!) }} />
+          </span>
+          <span className="num">{m.after}</span>
+        </div>
+      )}
     </li>
   );
 }

@@ -1,10 +1,10 @@
 ---
 title: "Tirei o chat da LíderHub do no-code e cortei os bugs urgentes de 20 para 1"
-name: "CHAT EM REACT"
+name: "Chat"
 slug: no-code-to-react-rebuild
 locale: pt
 status: published
-summary: "Reconstruí em React + Supabase o chat de um CRM com IA que travava no WeWeb, lancei em ~5 semanas e estabilizei a produção em ~4."
+summary: "Reconstruí em React o chat de um CRM com IA que travava no no-code, otimizei para aguentar a escala e cortei os bugs urgentes de 20 para 1 por semana."
 role: Desenvolvedor de Software
 company: LíderHub
 companyPublic: true
@@ -19,33 +19,41 @@ metrics:
     after: "1"
     value: "20 → 1"
     approximate: false
-  - label: Do início ao lançamento
-    value: "~5 semanas"
+  - label: Tempo para abrir uma conversa
+    before: "~3 s"
+    after: "<1 s"
+    value: "instantâneo"
     approximate: true
-  - label: Clientes usando o chat hoje
-    value: "1.000+"
+  - label: Clientes usando o chat
+    before: "~450"
+    after: "1.100+"
+    value: "1.100+"
     approximate: true
-evidence: []
 featured: true
 order: 1
 ---
 
 ## Situação
 
-A LíderHub é um CRM com IA para escritórios de advocacia fecharem contratos pelo WhatsApp. Em 2025 o app era no-code (Bubble + WeWeb): passava de 3 GB de RAM, travava o navegador, as mensagens demoravam a chegar e clientes cancelavam.
+A LíderHub é um CRM com IA para escritórios de advocacia fecharem contratos pelo WhatsApp. Em 2025 o front-end era no-code (WeWeb): passava de 3 GB de RAM, as mensagens demoravam a chegar, o app demorava a carregar e os clientes cancelavam principalmente por isso.
+
+<Compare
+  before={{ src: "/star/no-code-to-react-rebuild/chat-antigo.gif", alt: "Animação do chat antigo: trocando de conversa, mensagens presas carregando e a tela travando", label: "Antes · WeWeb + Bubble" }}
+  after={{ src: "/star/no-code-to-react-rebuild/chat-novo.gif", alt: "Animação do chat novo: trocando entre conversas, mensagens e dados do contato aparecem na hora", label: "Depois · React" }}
+/>
 
 ## Tarefa
 
-O time decidiu reescrever em React + Supabase. Fiquei responsável por todo o sistema de atendimento: chat, mensagens, busca, kanban e contatos. Eram cerca de 5 semanas até o lançamento, boa parte trabalhando presencialmente com o time em Florianópolis.
+O time decidiu reescrever o front-end em React, já que o Supabase era o backend. Fiquei responsável pelo chat, pelas mensagens, pela busca e pelos contatos e, principalmente, por otimizar tudo para aguentar o tranco de uma base que não parava de crescer.
 
 ## Ação
 
-1. Mapeei o app antigo inteiro antes de escrever código: tipos de mensagem, formatações, regras de responsável, tags e logs.
-2. Reconstruí o chat com lista enxuta e cache atualizado por evento, em vez de recarregar tudo a cada mensagem.
-3. Fiz, junto com o Pedro, o realtime respeitar os filtros: um evento só entra na lista se bater com o filtro ativo.
-4. Conduzi a estabilização depois do lançamento em 02/08/2025: achei a causa do chat que fechava sozinho, corrigi a tela branca em 1 dia e integrei 8 branches de 3 devs no merge de 26/08.
-5. Criei a paginação bidirecional: ao buscar uma mensagem antiga, carrego só a página dela e as vizinhas. Para acertar a lógica, construí painéis de debug visuais.
+1. Mapeei o app antigo inteiro antes de escrever código: cada tipo de mensagem, formatação, regra de responsável e tag. A versão nova não podia perder nada que o cliente já usava.
+2. Ataquei o peso. O app antigo recarregava a lista inteira a cada mensagem nova. Reconstruí o chat com uma lista enxuta e um cache que se atualiza por evento: chega uma mensagem, muda só a conversa dela.
+3. Fiz o tempo real respeitar os filtros da tela: uma conversa só entra na lista se bater com o filtro aberto, sem recarregar nada.
+4. Passei a carregar as mensagens por página. O chat abre com as 20 mais recentes e busca as anteriores conforme a pessoa sobe. Para achar e pular até uma mensagem antiga sem ler o histórico inteiro, criei uma paginação nos dois sentidos: <ProjectLink href="/projects/chat-message-search">Otimização da busca de mensagens</ProjectLink>.
+5. Depois do lançamento, fiquei na linha de frente até o chat parar de quebrar: cacei a causa de cada bug urgente e juntei o trabalho dos 3 devs numa versão só.
 
 ## Resultado
 
-Os bugs urgentes caíram de 20 para 1 por semana em cerca de 4 semanas. Hoje mais de mil clientes rodam nesse chat.
+Os bugs urgentes caíram de 20 para 1 por semana em cerca de 4 semanas. Abrir uma conversa, que levava uns 3 segundos no app antigo, passou a ser instantâneo. E o mesmo chat aguentou a base crescer de ~450 para mais de 1.100 clientes.

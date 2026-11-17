@@ -13,7 +13,7 @@ export async function ExperiencePage({ dict, slug }: { dict: Dictionary; slug: s
   if (!page) notFound();
 
   const { frontmatter: fm, content } = page;
-  const project = fm.project ? dict.projects.items.find((p) => p.slug === fm.project) : undefined;
+  const projects = dict.projects.items.filter((p) => p.experience === slug);
   const backHref = `${HOME_PATH[locale]}#${SECTION_IDS.work}`;
 
   return (
@@ -29,6 +29,7 @@ export async function ExperiencePage({ dict, slug }: { dict: Dictionary; slug: s
           {formatPeriod(fm.period, locale, caseStudy.now).toLowerCase()} · {fm.where}
         </p>
         <p className="lede">{fm.summary}</p>
+        {fm.context && <p>{fm.context}</p>}
 
         {fm.results && fm.results.length > 0 && (
           <>
@@ -41,7 +42,24 @@ export async function ExperiencePage({ dict, slug }: { dict: Dictionary; slug: s
           </>
         )}
 
-        {content}
+        {projects.length > 0 && (
+          <>
+            <h2 className="label">{t.projects}</h2>
+            <ol className="log">
+              {projects.map((project, i) => (
+                <li key={project.slug} className="numbered">
+                  <span className="when">{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3>
+                      <a href={`${CASE_PATH[locale]}/${project.slug}`}>{project.name}</a>
+                    </h3>
+                    <p>{project.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
 
         {fm.photos && fm.photos.length > 0 && (
           <>
@@ -71,23 +89,7 @@ export async function ExperiencePage({ dict, slug }: { dict: Dictionary; slug: s
           </>
         )}
 
-        {project && (
-          <>
-            <h2 className="label">{t.project}</h2>
-            <ol className="log">
-              <li>
-                <span className="when">{project.when}</span>
-                <div>
-                  <h3>
-                    <a href={`${CASE_PATH[locale]}/${project.slug}`}>{project.tagline}</a>{" "}
-                    <span className="org">· {project.name}</span>
-                  </h3>
-                  <p>{project.description}</p>
-                </div>
-              </li>
-            </ol>
-          </>
-        )}
+        {content}
       </article>
       <PhotoViewer labels={t.viewer} />
     </Shell>

@@ -18,19 +18,6 @@ metrics:
     after: 12min
     value: "-70%"
     approximate: false
-    evidence: deploy-dashboard
-evidence:
-  - id: deploy-dashboard
-    type: image
-    src: /star/deploy-time-70/dashboard.png
-    caption: Dashboard do CI depois da mudança
-    alt: Gráfico mostrando queda do tempo de deploy de 40 para 12 minutos
-    supports: result
-  - id: pipeline-pr
-    type: github
-    src: https://github.com/acme/app/pull/42
-    caption: PR com a nova pipeline em paralelo
-    supports: action
 cover: /star/deploy-time-70/dashboard.png
 featured: false
 ---
@@ -50,13 +37,11 @@ O que era minha responsabilidade, a meta e as restrições.
 3. Implementei ...
 4. Convenci ...
 
-<Evidence id="pipeline-pr" />
-
 ## Resultado
 
 Antes/depois, impacto no negócio e reconhecimento.
 
-<Evidence id="deploy-dashboard" />
+![Dashboard do CI depois da mudança (dados fictícios)](/star/deploy-time-70/dashboard.png)
 
 ## Aprendizado
 

@@ -20,26 +20,14 @@ export interface Job {
   slug?: string;
 }
 
-// A milestone inside a project, linking to its STAR case (content/star/<slug>).
-export interface Milestone {
-  slug: string;
-  text: string;
-}
-
-// A project page lives at CASE_PATH/<slug>, next to its milestones' cases.
+// A project on the home, backed by a STAR case at CASE_PATH/<slug> (content/star/<slug>).
 export interface Project {
   slug: string;
-  when: string;
   name: string;
-  href?: string;
-  tagline: string;
+  org: string;
+  // Experience slug it belongs to; that experience page lists it.
+  experience?: string;
   description: string;
-  // Longer explanation, one string per paragraph, shown on the project page.
-  about?: string[];
-  results?: string[];
-  // "**Title.** text" bullets: title in bold, then what I did.
-  contributions?: { title: string; text: string }[];
-  milestones?: Milestone[];
 }
 
 export interface Dictionary {
@@ -58,19 +46,15 @@ export interface Dictionary {
     more: { label: string; href: string };
     meta: { title: string; description: string };
   };
-  // Products I built or helped build; milestones link to the STAR cases.
+  // What I built, one row per STAR case.
   projects: {
     title: string;
     empty: string;
-    results: string;
-    contributions: string;
-    cases: string;
     items: Project[];
   };
   caseStudy: {
     back: string;
     metrics: string;
-    evidence: string;
     stack: string;
     before: string;
     after: string;
@@ -79,7 +63,7 @@ export interface Dictionary {
   experience: {
     results: string;
     photos: string;
-    project: string;
+    projects: string;
     viewer: { prev: string; next: string; close: string };
   };
   about: {

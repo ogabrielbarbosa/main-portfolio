@@ -1,0 +1,68 @@
+---
+title: "Otimizei a busca de mensagens da LíderHub: 4x mais rápida com o banco 4x maior"
+name: "Otimização da busca de mensagens"
+slug: chat-message-search
+locale: pt
+status: published
+summary: "Reescrevi a busca de mensagens de um CRM com IA e criei a navegação até o resultado: o tempo médio caiu de ~5,3 s para ~1,3 s enquanto a tabela de mensagens ia de ~20M para ~90M."
+role: Desenvolvedor de Software
+company: LíderHub
+companyPublic: true
+period:
+  start: "2025-08"
+  end: "2026-07"
+competencies: [resolucao-de-problemas, impacto-tecnico]
+skills: [PostgreSQL, Full-text search, Supabase, React, TanStack Query]
+metrics:
+  - label: Tempo médio de uma busca
+    before: "~5,3 s"
+    after: "~1,3 s"
+    value: "4x mais rápida"
+    approximate: true
+  - label: Mensagens no banco
+    before: "~20M"
+    after: "~90M"
+    value: "~90M"
+    approximate: true
+featured: true
+order: 2
+---
+
+## Situação
+
+A busca de mensagens é o que o advogado usa para achar o que o cliente disse semanas atrás. No fim de 2025 a tabela de mensagens da LíderHub tinha ~20 milhões de linhas e, em poucos meses, passou de 60 milhões. Uma busca levava em média ~5 s, e vários clientes começaram a reclamar de busca vazia e de timeout.
+
+## Tarefa
+
+Eu precisava que a busca respondesse rápido sem pesar no banco, mesmo com a tabela crescendo, e que o clique num resultado levasse direto até a mensagem certa dentro da conversa.
+
+## Ação
+
+**A consulta: parar de ler o que não precisa.**
+
+1. Achei o primeiro gargalo: para saber de qual empresa era cada mensagem, a busca cruzava a tabela de mensagens com a de conversas. Passei a gravar a empresa direto em cada mensagem, no envio e por trigger, e a busca passou a filtrar sem esse cruzamento. As mensagens antigas também foram preenchidas.
+2. Reescrevi a função de busca: uma consulta só de texto completo, as permissões aplicadas só sobre o que bateu e o destaque do termo calculado só para a página exibida. Troquei a Edge Function por uma chamada direta ao banco.
+3. Mandei a busca para a réplica de leitura, tirando essa carga do banco principal, que atende o chat em tempo real.
+4. Quando uma versão que buscava em todo o histórico passou a levar ~10 s e saturar o disco, voltei para a janela de 30 dias na réplica e aumentei a espera entre as teclas, até existir um índice para isso.
+
+**A conversa: carregar só a janela que a pessoa vê.**
+
+5. A conversa vem em páginas de 20, da mais nova para a mais antiga. A próxima página é buscada antes de a pessoa chegar na borda, e uma mensagem visível vira âncora para a tela não pular quando uma página entra por cima.
+
+![Rabisco da rolagem: páginas 0, 1 e 2, o viewport, o gatilho que busca a próxima página e a mensagem âncora](/star/chat-message-search/rabisco-rolagem.png)
+
+**O clique: chegar na mensagem sem ler o caminho.**
+
+6. O resultado pode estar na posição 2 da página 30 de uma conversa que só tem a página 0 carregada. Ler as 30 páginas para chegar lá era justamente o que travava. O banco responde só onde a mensagem está, e eu carrego aquela página e, se ela estiver perto da borda, a vizinha. As páginas do meio ficam como uma lacuna, preenchida só se a pessoa rolar até lá.
+
+![Busca por "sentença", clique num resultado de ~200 dias atrás e a conversa abre direto na mensagem (dados fictícios)](/star/chat-message-search/busca-pulo.gif)
+
+![Rabisco do pulo: o banco responde página 30 posição 2, só as páginas 29 e 30 são carregadas e as páginas 1 a 28 ficam como lacuna](/star/chat-message-search/rabisco-pulo.png)
+
+7. Para acertar essa lógica, construí painéis de debug visuais que mostram cada página carregada, a posição de cada mensagem e qual gatilho disparou.
+
+![O mesmo pulo com o painel de debug: só as páginas 30 e 31 carregadas, cada mensagem com sua página e posição (dados fictícios)](/star/chat-message-search/busca-pulo-debug.gif)
+
+## Resultado
+
+O tempo médio de uma busca caiu de ~5,3 s para ~1,3 s, cerca de 4x mais rápido, enquanto a tabela de mensagens crescia de ~20 milhões para ~90 milhões de linhas, também cerca de 4x. Os dois tempos foram medidos no próprio banco. E abrir qualquer resultado, por mais antigo, lê no máximo 40 mensagens.

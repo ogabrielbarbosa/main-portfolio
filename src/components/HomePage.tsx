@@ -53,21 +53,21 @@ export async function HomePage({ dict }: { dict: Dictionary }) {
   );
 }
 
-// Projects on the home: a short row each; the tagline opens the full project page.
+// Projects: a short row each; the name opens the project's case page.
 export function ProjectList({ dict }: { dict: Dictionary }) {
   const { projects, locale } = dict;
   if (!projects.items.length) return <p className="empty">{projects.empty}</p>;
 
   return (
     <ol className="log">
-      {projects.items.map((project) => {
+      {projects.items.map((project, i) => {
         const page = `${CASE_PATH[locale]}/${project.slug}`;
         return (
-          <li key={project.slug}>
-            <span className="when">{project.when}</span>
+          <li key={project.slug} className="numbered">
+            <span className="when">{String(i + 1).padStart(2, "0")}</span>
             <div>
               <h3>
-                <a href={page}>{project.tagline}</a> <span className="org">· {project.name}</span>
+                <a href={page}>{project.name}</a> <span className="org">· {project.org}</span>
               </h3>
               <p>{project.description}</p>
             </div>

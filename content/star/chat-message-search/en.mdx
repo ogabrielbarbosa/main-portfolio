@@ -1,0 +1,68 @@
+---
+title: "Optimized LíderHub's message search: 4x faster on a 4x bigger database"
+name: "Message search optimization"
+slug: chat-message-search
+locale: en
+status: published
+summary: "Rewrote the message search of an AI CRM and built the navigation to each result: average search time dropped from ~5.3 s to ~1.3 s while the messages table grew from ~20M to ~90M."
+role: Software Developer
+company: LíderHub
+companyPublic: true
+period:
+  start: "2025-08"
+  end: "2026-07"
+competencies: [resolucao-de-problemas, impacto-tecnico]
+skills: [PostgreSQL, Full-text search, Supabase, React, TanStack Query]
+metrics:
+  - label: Average search time
+    before: "~5.3 s"
+    after: "~1.3 s"
+    value: "4x faster"
+    approximate: true
+  - label: Messages in the database
+    before: "~20M"
+    after: "~90M"
+    value: "~90M"
+    approximate: true
+featured: true
+order: 2
+---
+
+## Situation
+
+Message search is how a lawyer finds what a client said weeks ago. At the end of 2025 LíderHub's messages table had ~20 million rows and, within a few months, passed 60 million. A search took ~5 s on average, and several customers started reporting empty results and timeouts.
+
+## Task
+
+I needed search to answer fast without weighing on the database, even as the table kept growing, and clicking a result to take people straight to the right message inside the conversation.
+
+## Action
+
+**The query: stop reading what isn't needed.**
+
+1. Found the first bottleneck: to know which company each message belonged to, search joined the messages table with the conversations table. I started storing the company directly on every message, on insert and through a trigger, so search could filter without that join. The old messages were backfilled too.
+2. Rewrote the search function: a single full-text query, permissions applied only to the hits and term highlighting computed only for the page on screen. I replaced the Edge Function with a direct database call.
+3. Moved search to the read replica, taking that load off the primary database, which serves the realtime chat.
+4. When a version that searched the whole history started taking ~10 s and saturating disk, I rolled back to the 30-day window on the replica and raised the typing debounce, until an index for it existed.
+
+**The conversation: load only the window the person sees.**
+
+5. A conversation comes in pages of 20, newest to oldest. The next page is fetched before the person reaches the edge, and a visible message becomes an anchor so the screen doesn't jump when a page comes in from above.
+
+![Scrolling sketch: pages 0, 1 and 2, the viewport, the trigger that fetches the next page and the anchor message](/star/chat-message-search/rabisco-rolagem.png)
+
+**The click: reach the message without reading the way there.**
+
+6. A result can sit at position 2 of page 30 in a conversation that only has page 0 loaded. Reading all 30 pages to get there was exactly what froze the app. The database answers only where the message is, and I load that page and, if it's near the edge, its neighbor. The pages in between stay as a gap, filled only if the person scrolls there.
+
+![Searching "sentença", clicking a ~200-day-old result and the conversation opens right on the message (mock data)](/star/chat-message-search/busca-pulo.gif)
+
+![Jump sketch: the database answers page 30 position 2, only pages 29 and 30 are loaded and pages 1 to 28 stay as a gap](/star/chat-message-search/rabisco-pulo.png)
+
+7. To get this logic right, I built visual debug panels showing every loaded page, each message's position and which trigger fired.
+
+![The same jump with the debug panel: only pages 30 and 31 loaded, each message tagged with its page and position (mock data)](/star/chat-message-search/busca-pulo-debug.gif)
+
+## Result
+
+Average search time dropped from ~5.3 s to ~1.3 s, about 4x faster, while the messages table grew from ~20 million to ~90 million rows, also about 4x. Both times were measured in the database itself. And opening any result, however old, reads at most 40 messages.

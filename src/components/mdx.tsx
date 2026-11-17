@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import type { ReactNode } from "react";
 
 // Components usable inside experience MDX. Hover (or tap/focus on mobile) previews are
@@ -93,4 +93,35 @@ export function Person({
   );
 }
 
-export const mdxComponents = { Timeline, Moment, Person };
+// Link to another project page: a small filled square (like the project's tile), then its name.
+export function ProjectLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a href={href} className="project-link">
+      <span className="project-link-icon" aria-hidden>
+        <ArrowUpRight size={13} strokeWidth={2.25} />
+      </span>
+      {children}
+    </a>
+  );
+}
+
+export const mdxComponents = { Timeline, Moment, Person, Compare, ProjectLink };
+
+// Before/after images in a case, stacked full width so screenshots stay readable.
+type CompareImage = { src: string; alt: string; label: string };
+export function Compare({ before, after, caption }: { before: CompareImage; after?: CompareImage; caption?: string }) {
+  return (
+    <figure className="compare">
+      <div className="compare-pair">
+        {[before, after].filter((img) => img !== undefined).map((img) => (
+          <div key={img.src} className="compare-item">
+            <span className="compare-label">{img.label}</span>
+            {/* eslint-disable-next-line @next/next/no-img-element -- static illustrations from MDX */}
+            <img src={img.src} alt={img.alt} loading="lazy" />
+          </div>
+        ))}
+      </div>
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  );
+}

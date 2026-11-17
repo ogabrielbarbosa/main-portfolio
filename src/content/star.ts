@@ -15,16 +15,6 @@ export interface StarMetric {
   approximate?: boolean;
 }
 
-export interface StarEvidence {
-  id: string;
-  type: "image" | "video" | "youtube" | "loom" | "link" | "github" | "pdf" | "quote";
-  src?: string;
-  caption: string;
-  alt?: string;
-  author?: string;
-  text?: string;
-}
-
 export interface StarFrontmatter {
   title: string;
   name: string;
@@ -37,7 +27,6 @@ export interface StarFrontmatter {
   period: { start: string; end?: string };
   skills?: string[];
   metrics?: StarMetric[];
-  evidence?: StarEvidence[];
   order?: number;
 }
 
@@ -63,7 +52,8 @@ export async function getStory(slug: string, locale: Locale, components = {}) {
   const story = await compileMDX<StarFrontmatter>({
     source,
     components,
-    options: { parseFrontmatter: true },
+    // Plain object props (<Compare before={{...}}>) need JS expressions; dangerous ones stay blocked.
+    options: { parseFrontmatter: true, blockJS: false, blockDangerousJS: true },
   });
   if (story.frontmatter.status !== "published" && !SHOW_DRAFTS) return null;
   return story;
