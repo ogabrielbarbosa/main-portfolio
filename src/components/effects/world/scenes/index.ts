@@ -5,4 +5,6 @@ import { hpGarage } from "./hpGarage";
 import { stanford } from "./stanford";
 import type { SceneBuilder } from "./types";
 
-export const SCENES = { goldenGate, stanford, flag, hpGarage, dataCenter } satisfies Record<string, SceneBuilder>;
+// goldenGate goes first: it is always the opening scene. The flag is disabled for now (keep the import).
+void flag;
+export const SCENES = { goldenGate, stanford, hpGarage, dataCenter } satisfies Record<string, SceneBuilder>;

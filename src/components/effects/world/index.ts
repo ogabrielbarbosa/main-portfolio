@@ -35,11 +35,11 @@ export function start(canvas: HTMLCanvasElement) {
     return cache.get(key)!;
   };
 
-  // A shuffled order that survives page loads, so a refresh doesn't always start on the same place.
+  // A shuffled order that survives page loads. The first scene (Golden Gate) always opens; the rest are shuffled.
   const shuffled = () => {
     const order = names.map((_, i) => i);
-    for (let i = order.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+    for (let i = order.length - 1; i > 1; i--) {
+      const j = 1 + Math.floor(Math.random() * i);
       [order[i], order[j]] = [order[j], order[i]];
     }
     return order;
@@ -48,7 +48,7 @@ export function start(canvas: HTMLCanvasElement) {
   try {
     saved = JSON.parse(sessionStorage.getItem("scenes") ?? "null");
   } catch {}
-  const valid = Array.isArray(saved?.order) && saved.order.length === names.length && names.every((_, i) => saved!.order!.includes(i));
+  const valid = Array.isArray(saved?.order) && saved.order.length === names.length && names.every((_, i) => saved!.order!.includes(i)) && saved.order[0] === 0;
   const order = valid ? saved!.order! : shuffled();
   let pos = valid && Number.isInteger(saved?.pos) && saved!.pos! >= 0 && saved!.pos! < order.length ? saved!.pos! : 0;
   const query = new URLSearchParams(location.search);
